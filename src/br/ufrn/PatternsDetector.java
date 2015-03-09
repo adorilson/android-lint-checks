@@ -47,6 +47,7 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 	@Override
     public void visitElement(XmlContext context, Element element) {
     	// Discover the main activity
+		// TODO If we have more than one element with intent-filter tag?
     	Node parentNode = element.getParentNode();
     	NamedNodeMap attr = parentNode.getAttributes();
     	Node mainActivity = attr.getNamedItemNS(ANDROID_URI, "name");
