@@ -35,7 +35,7 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 	public static final Issue CHECKFRAGMENTACTIVITY = Issue.create(
             "MainActivityIsFragmentActivity", "The main activity should extends"
             		+ "FragmentActivity class",
-            "Checks if the main activity definided in manifest file extends the"
+            "Checks if the main activity defined in manifest file extends the"
             + "FragmentActivity class",
             Category.CORRECTNESS, 6, Severity.WARNING,
             new Implementation(
