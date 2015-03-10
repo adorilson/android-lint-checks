@@ -72,6 +72,7 @@ theFragmentActivity class
 ```
 
 - Run the check
+
     a) In Gradle project, at project home
     ```
         ./gradlew lint
