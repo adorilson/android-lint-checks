@@ -72,9 +72,11 @@ theFragmentActivity class
 ```
 
 - Run the check
-
     a) In Gradle project, at project home
+    ```
         ./gradlew lint
- 
+    ```
     b) In non-gradle project, at project home
+    ```
         <ADT_HOME>/sdk/tools/lint --check MainActivityIsFragmentActivity .
+    ```
