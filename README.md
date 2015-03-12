@@ -28,7 +28,7 @@ class.
 intent-filter tag.
 1. Check if main activity founded extends FragmentActivity class.
 
-### UsesActionBar (TODO)
+### UsesActionBar
 
 - Summary: The app should uses action bar
 - Priority: 6 / 10
@@ -38,7 +38,9 @@ intent-filter tag.
 Checks if the application uses the action bar.
 
 #### How this is done?
-1. I don't know yet. Maybe checking if ActionBar classes is imported in main activity?
+1. Look for in manifest file by the main activity. This will the element has a
+intent-filter tag.
+1. Check if main activity founded extends ActionBarActivity class.
 
 ## How to install and run the check?
 

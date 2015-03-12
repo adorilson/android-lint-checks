@@ -29,6 +29,7 @@ import com.android.tools.lint.detector.api.XmlContext;
 
 public class PatternsDetector extends ResourceXmlDetector implements JavaScanner {
 	private final static String FRAGMENT = "FragmentActivity";
+	private final static String ACTIONBARACTIVITY = "ActionBarActivity";
 
 	private String mainActivity;
 	
@@ -43,6 +44,17 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
             		EnumSet.of(Scope.ALL_JAVA_FILES, Scope.MANIFEST))
             );
 
+	public static final Issue USESACTIONBAR = Issue.create(
+            "AppShouldUsesActionBar", "The main activity should extends the "
+            		+ ACTIONBARACTIVITY + " class",
+            "Checks if the main activity defined in manifest file extends the "
+            + ACTIONBARACTIVITY + " class",
+            Category.CORRECTNESS, 6, Severity.WARNING,
+            new Implementation(
+            		PatternsDetector.class,
+            		EnumSet.of(Scope.ALL_JAVA_FILES, Scope.MANIFEST))
+            );
+	
 	@Override
     public Collection<String> getApplicableElements() {
     	return Arrays.asList(
@@ -81,6 +93,9 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 				if (!node.astExtending().toString().equals(FRAGMENT)){
 					report(node);
 				}
+				if (!node.astExtending().toString().equals(ACTIONBARACTIVITY)){
+					report_actionbar(node);
+				}
 			}
 			return super.visitClassDeclaration(node);
 		}
@@ -89,6 +104,12 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 			String message = ACTIVITY + " class should extends " + FRAGMENT;
 			Location location = mContext.getLocation(node.astName());
 			mContext.report(CHECKFRAGMENTACTIVITY, node, location, message);
+		}
+
+		private void report_actionbar(ClassDeclaration node) {
+			String message = ACTIVITY + " class should extends " + ACTIONBARACTIVITY;
+			Location location = mContext.getLocation(node.astName());
+			mContext.report(USESACTIONBAR, node, location, message);
 		}
 	}
 }
