@@ -28,7 +28,7 @@ class.
 intent-filter tag.
 1. Check if main activity founded extends FragmentActivity class.
 
-### UsesActionBar
+### AppShouldUsesActionBar
 
 - Summary: The app should uses action bar
 - Priority: 6 / 10
