@@ -15,6 +15,7 @@ import lombok.ast.ForwardingAstVisitor;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.android.tools.lint.detector.api.Detector.JavaScanner;
 import com.android.tools.lint.detector.api.Category;
@@ -30,8 +31,9 @@ import com.android.tools.lint.detector.api.XmlContext;
 public class PatternsDetector extends ResourceXmlDetector implements JavaScanner {
 	private final static String FRAGMENT = "FragmentActivity";
 	private final static String ACTIONBARACTIVITY = "ActionBarActivity";
+	private static final String MAIN = "android.intent.action.MAIN";
 
-	private String mainActivity;
+	private String mainActivity = null;
 	
 	public static final Issue CHECKFRAGMENTACTIVITY = Issue.create(
             "MainActivityIsFragmentActivity", "The main activity should extends"
@@ -65,12 +67,30 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 	@Override
     public void visitElement(XmlContext context, Element element) {
     	// Discover the main activity
-		// TODO If we have more than one element with intent-filter tag?
-    	Node parentNode = element.getParentNode();
-    	NamedNodeMap attr = parentNode.getAttributes();
-    	Node mainActivity = attr.getNamedItemNS(ANDROID_URI, "name");
-    	int lastDot = mainActivity.getNodeValue().lastIndexOf('.');
-    	this.mainActivity = mainActivity.getNodeValue().substring(lastDot+1);
+		// The main activity is the one with 
+		// <action android:name="android.intent.action.MAIN" /> tag in
+		// AndroidManifest file
+		NodeList child = element.getChildNodes();
+		for (int i=0; i<child.getLength(); i++) {
+			Node c = child.item(i);
+			NamedNodeMap attr = c.getAttributes();
+			if (attr==null){
+				continue;
+			}
+			Node node = attr.getNamedItemNS(ANDROID_URI, "name");
+			if(node==null){
+				continue;
+			}
+			String value = node.getNodeValue();
+			if (value.equalsIgnoreCase(MAIN)){
+				Node parentNode = element.getParentNode();
+				attr = parentNode.getAttributes();
+				Node mainActivity = attr.getNamedItemNS(ANDROID_URI, "name");
+				int lastDot = mainActivity.getNodeValue().lastIndexOf('.');
+				this.mainActivity = mainActivity.getNodeValue().substring(lastDot+1);
+				break;
+			}
+		}
     }
 
 	@Override
