@@ -15,7 +15,7 @@ Handsets](http://developer.android.com/guide/practices/tablets-and-handsets.html
 
 ### MainActivityIsFragmentActivity
 
-- Summary: The main activity should extendsFragmentActivity class
+- Summary: The main activity should extends FragmentActivity class
 - Priority: 6 / 10
 - Severity: Warning
 - Category: Correctness
