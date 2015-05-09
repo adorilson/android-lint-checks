@@ -3,7 +3,6 @@ package br.ufrn;
 
 import static com.android.SdkConstants.ANDROID_URI;
 import static com.android.SdkConstants.TAG_INTENT_FILTER;
-import static com.android.SdkConstants.CLASS_V4_FRAGMENT;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,6 +33,7 @@ import com.android.tools.lint.detector.api.XmlContext;
 
 public class PatternsDetector extends ResourceXmlDetector implements JavaScanner {
 	private static final String CLASS_V7_ACTIONBARACTIVITY = "android.support.v7.app.ActionBarActivity";
+	private static final String CLASS_V4_FRAGMENTACTIVITY = "android.support.v4.app.FragmentActivity";
 	private static final String MAIN = "android.intent.action.MAIN";
 
 	private String mainActivity = null;
@@ -123,7 +123,7 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 			ResolvedClass rClass = (ResolvedClass) rNode;
 			
 			if (node.astName().toString().equals(ACTIVITY)){
-				boolean isFragmentActivity = rClass.isSubclassOf(CLASS_V4_FRAGMENT, false);
+				boolean isFragmentActivity = rClass.isSubclassOf(CLASS_V4_FRAGMENTACTIVITY, false);
 				if (!isFragmentActivity){
 					report(node);
 				}else{
@@ -144,7 +144,7 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 		}
 
 		private void report(ClassDeclaration node) {
-			String message = ACTIVITY + " class should extends " + CLASS_V4_FRAGMENT;
+			String message = ACTIVITY + " class should extends " + CLASS_V4_FRAGMENTACTIVITY;
 			Location location = mContext.getLocation(node.astName());
 			mContext.report(CHECKFRAGMENTACTIVITY, node, location, message);
 		}
