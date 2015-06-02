@@ -7,10 +7,12 @@ import static com.android.SdkConstants.TAG_INTENT_FILTER;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 
 import lombok.ast.AstVisitor;
 import lombok.ast.ClassDeclaration;
 import lombok.ast.ForwardingAstVisitor;
+import lombok.ast.MethodInvocation;
 import lombok.ast.PackageDeclaration;
 
 import org.w3c.dom.Element;
@@ -68,6 +70,12 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
     }
 
 	@Override
+	public List<String> getApplicableMethodNames() {
+		// TODO Auto-generated method stub
+		return Arrays.asList("create");
+	}
+	
+	@Override
     public void visitElement(XmlContext context, Element element) {
     	// Discover the main activity
 		// The main activity is the one with 
@@ -111,6 +119,19 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 		}
 
 		@Override
+		public boolean visitMethodInvocation(MethodInvocation node) {
+			// TODO Auto-generated method stub
+			
+			
+			//if (node.toString().contains("Fragment")){
+				System.out.println("visitMethodInvocation");
+				System.out.println(node.astName());
+				System.out.println(node);
+			//}
+			return super.visitMethodInvocation(node);
+		}
+		
+		@Override
 		public boolean visitPackageDeclaration(PackageDeclaration node) {
 			// TODO Auto-generated method stub
 			return super.visitPackageDeclaration(node);
@@ -118,7 +139,6 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 		
 		@Override
 		public boolean visitClassDeclaration(ClassDeclaration node) {
-			
 			ResolvedNode rNode = mContext.resolve(node);
 			ResolvedClass rClass = (ResolvedClass) rNode;
 			
@@ -140,7 +160,9 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 					// Maybe checking if the theme is used
 				}
 			}
+			
 			return super.visitClassDeclaration(node);
+			
 		}
 
 		private void report(ClassDeclaration node) {

@@ -1,8 +1,13 @@
 package br.ufrn;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import lombok.ast.AstVisitor;
 import lombok.ast.ForwardingAstVisitor;
@@ -15,6 +20,7 @@ import com.android.annotations.Nullable;
 import com.android.tools.lint.client.api.JavaParser.ResolvedMethod;
 import com.android.tools.lint.client.api.JavaParser.ResolvedNode;
 import com.android.tools.lint.detector.api.Category;
+import com.android.tools.lint.detector.api.ClassContext;
 import com.android.tools.lint.detector.api.Context;
 import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Detector.JavaScanner;
@@ -56,10 +62,27 @@ public class UsesFragmentManager extends Detector implements JavaScanner {
         return Speed.FAST;
     }
     
-    //---- Implements JavaScanner ----
+    @Override
+	public void checkCall(ClassContext context, ClassNode classNode,
+			MethodNode method, MethodInsnNode call) {
+		// TODO Auto-generated method stub
+    	
+    	System.out.println("check call ClassNode " + classNode + 
+    				"MethodNode " + method + " MethodInsnNode " + call);
+    	
+		super.checkCall(context, classNode, method, call);
+	}
+
+	//---- Implements JavaScanner ----
     @Override
     public List<Class<? extends Node>> getApplicableNodeTypes() {
         return Collections.<Class<? extends Node>>singletonList(MethodDeclaration.class);
+    }
+    
+    @Override
+    @Nullable
+    public List<String> getApplicableCallNames() {
+        return Arrays.asList("configLayout");
     }
     
     @Override
@@ -108,6 +131,27 @@ public class UsesFragmentManager extends Detector implements JavaScanner {
 				@NonNull MethodDeclaration methodDeclaration,
 				@NonNull ResolvedMethod method) {
 			GetFMVisitor visitor = new GetFMVisitor(context, method);
+			/*
+			System.out.println("call super with params");
+			System.out.println("JavaContext " + context + "\n" +
+				               "MethodDeclaration " + methodDeclaration + "\n"+ 
+				               "ResolvedMethod " + method);
+			
+			System.out.println("methodDeclaration.getChildren()");
+			
+			
+			
+			for (Node child : methodDeclaration.getChildren()) {
+				if(child instanceof ResolvedMethod){
+					ResolvedMethod rChild = (ResolvedMethod)child;
+					System.out.println(rChild.toString());
+				}else{
+					System.out.println("nao é ResolvedMethod");
+				}
+				
+			}
+			 */	
+			//System.out.println("--");
 			methodDeclaration.accept(visitor);
 			return visitor.mCallsSuper;
 		}

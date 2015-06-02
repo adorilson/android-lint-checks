@@ -1,2 +1,4 @@
 Manifest-Version: 1.0
+Class-Path: lib/simple-xml-2.6.9.jar
 Lint-Registry: br.ufrn.PatternsIssueRegistry
+
