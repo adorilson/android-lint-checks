@@ -42,6 +42,20 @@ Checks if the application uses the action bar.
 intent-filter tag.
 1. Check if main activity founded extends ActionBarActivity class.
 
+### UsesFragmentManager
+
+- Summary: Looks if the app uses a FragmentTransation
+- Priority: 6 / 10
+- Severity: Warning
+- Category: Correctness
+
+In order to use fragments API, the application should uses a FragmentTransaction.
+This detector look for call to FragmentManager.beginTransaction method in activities classes.
+
+#### How this is done?
+1. For each class application, check if it extends android/support/v4/app/FragmentActivity
+1. If yes, find the onCreate method and check, recursively, if FragmentManager.beginTransaction is called.
+
 ## How to install and run the check?
 
 - Clone this repository

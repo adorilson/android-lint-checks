@@ -12,7 +12,8 @@ public class PatternsIssueRegistry extends IssueRegistry {
 	public List<Issue> getIssues() {
 		return Arrays.asList(
 	            PatternsDetector.CHECKFRAGMENTACTIVITY,
-	            PatternsDetector.USESACTIONBAR
+	            PatternsDetector.USESACTIONBAR,
+	            UsesFragmentTransaction.ISSUE
 	        );
 	}
 
