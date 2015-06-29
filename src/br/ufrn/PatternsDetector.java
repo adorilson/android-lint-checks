@@ -4,6 +4,7 @@ package br.ufrn;
 import static com.android.SdkConstants.ANDROID_URI;
 import static com.android.SdkConstants.TAG_INTENT_FILTER;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -21,6 +22,7 @@ import com.android.tools.lint.client.api.JavaParser.ResolvedClass;
 import com.android.tools.lint.client.api.JavaParser.ResolvedNode;
 import com.android.tools.lint.detector.api.Detector.JavaScanner;
 import com.android.tools.lint.detector.api.Category;
+import com.android.tools.lint.detector.api.Context;
 import com.android.tools.lint.detector.api.Implementation;
 import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.JavaContext;
@@ -29,13 +31,17 @@ import com.android.tools.lint.detector.api.ResourceXmlDetector;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
 import com.android.tools.lint.detector.api.XmlContext;
+import com.donvigo.androidmanifestparser.manifest.ActivityEntry;
+import com.donvigo.androidmanifestparser.manifest.AndroidManifest;
 
 public class PatternsDetector extends ResourceXmlDetector implements JavaScanner {
 	private static final String CLASS_V7_ACTIONBARACTIVITY = "android.support.v7.app.ActionBarActivity";
 	private static final String CLASS_V4_FRAGMENTACTIVITY = "android.support.v4.app.FragmentActivity";
 	private static final String MAIN = "android.intent.action.MAIN";
+	private static final String THEME_APPCOMPAT_LIGHT = "@style/Theme.AppCompat.Light";
 
 	private String mainActivity = null;
+	private static AndroidManifest manifest = null;
 	private boolean DEBUG = false;
 	
 	public static final Issue CHECKFRAGMENTACTIVITY = Issue.create(
@@ -60,6 +66,17 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
             		EnumSet.of(Scope.ALL_JAVA_FILES, Scope.MANIFEST))
             );
 	
+	public static final Issue USESTHEMEAPPCOMPATLIGHT = Issue.create(
+            "ActivityShouldUsesThemeAppCompatLight", "The activity should extends the "
+            		+ THEME_APPCOMPAT_LIGHT + " theme",
+            "Checks if the activity uses the "
+            + CLASS_V7_ACTIONBARACTIVITY + " theme",
+            Category.CORRECTNESS, 6, Severity.FATAL,
+            new Implementation(
+            		PatternsDetector.class,
+            		EnumSet.of(Scope.ALL_JAVA_FILES, Scope.MANIFEST))
+            ).addMoreInfo("http://developer.android.com/guide/topics/ui/actionbar.html#Adding");
+	
 	@Override
     public Collection<String> getApplicableElements() {
     	return Arrays.asList(
@@ -67,6 +84,21 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
     			);
     }
 
+	@Override
+	public void beforeCheckProject(Context context) {
+		
+		File file = context.getProject().getManifestFiles().iterator().next();
+		
+		manifest = AndroidManifest.getManifestFromXML(file.getAbsolutePath());
+		
+		if(DEBUG){
+			System.out.println("\n === beforeCheckProject ===");
+			System.out.println(manifest);
+		}
+		
+		super.beforeCheckProject(context);
+	}
+	
 	@Override
     public void visitElement(XmlContext context, Element element) {
 		
@@ -152,6 +184,34 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 
 		private void checkTheme(ClassDeclaration node) {
 			
+			ResolvedNode rNode = mContext.resolve(node);
+			String name = null;
+			name = rNode.getName().replace(manifest.getPackageName(), "");
+			
+			if(DEBUG){
+				System.out.println("\n === checkTheme ===");
+				System.out.println(manifest.getPackageName());
+				System.out.println("rNode.getName(): " + rNode.getName());
+				System.out.println("name: " + name);
+			}
+			
+			ActivityEntry activity = null;
+			activity = manifest.getApplication().getActivity(name);
+			
+			if(DEBUG){
+				if (activity!=null){
+					System.out.println("activity.getName(): " + activity.getName());
+					System.out.println("activity.getTheme(): " + activity.getTheme());
+				}
+			}
+			
+			if(activity.getTheme()==null){
+				mContext.report(USESTHEMEAPPCOMPATLIGHT, mContext.getLocation(node), "Should uses the @style/Theme.AppCompat.Light style");
+			}else{
+				if (!activity.getTheme().equals(THEME_APPCOMPAT_LIGHT)){
+					mContext.report(USESTHEMEAPPCOMPATLIGHT, mContext.getLocation(node), "Should uses the @style/Theme.AppCompat.Light style");
+				}
+			}
 		}
 
 		private void report(ClassDeclaration node) {

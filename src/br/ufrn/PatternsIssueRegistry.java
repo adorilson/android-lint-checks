@@ -13,8 +13,8 @@ public class PatternsIssueRegistry extends IssueRegistry {
 		return Arrays.asList(
 	            PatternsDetector.CHECKFRAGMENTACTIVITY,
 	            PatternsDetector.USESACTIONBAR,
-	            UsesFragmentTransaction.ISSUE
+	            UsesFragmentTransaction.ISSUE,
+	            PatternsDetector.USESTHEMEAPPCOMPATLIGHT
 	        );
 	}
-
 }

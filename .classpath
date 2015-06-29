@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="ADT_HOME/sdk/tools/lib/lint-api.jar"/>
 	<classpathentry kind="var" path="ADT_HOME/sdk/tools/lib/lint-checks.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AndroidManifestParser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

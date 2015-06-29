@@ -1,2 +1,3 @@
 Manifest-Version: 1.0
 Lint-Registry: br.ufrn.PatternsIssueRegistry
+Class-Path: lib/AndroidManifestParser.jar lib/simple-xml-2.6.9.jar
