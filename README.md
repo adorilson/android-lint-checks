@@ -56,6 +56,17 @@ This detector look for call to FragmentManager.beginTransaction method in activi
 1. For each class application, check if it extends android/support/v4/app/FragmentActivity
 1. If yes, find the onCreate method and check, recursively, if FragmentManager.beginTransaction is called.
 
+### ActivityShouldUsesThemeAppCompatLight
+
+- Summary: Check if the activity uses the @style/Theme.AppCompat.Light theme
+- Priority: 6 / 10
+- Severity: FATAL
+- Category: Correctness
+
+#### How this is done?
+1. For each activity that extends android/support/v7/app/ActionBarActivity checks if
+this uses the @style/Theme.AppCompat.Light theme
+
 ## How to install and run the check?
 
 - Clone this repository
