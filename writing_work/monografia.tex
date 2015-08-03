@@ -1,0 +1,71 @@
+% ------------------------------------------------------------------------------
+% Android Patterns Checks: uso de Android Lint para verificação de aderências a
+% guidelines 
+% Autores:
+%     Adorilson Bezerra <adorilson@ppgsc.ufrn.br>
+% Licença Creative Commons Atribuição 3.0. 
+% Você pode usar e alterar este documento, 
+% mas deve obrigatoriamente citar a autoria. 
+% ------------------------------------------------------------------------------
+
+\documentclass[a4paper,12pt]{report}
+
+% ------------------------------------------------------------------------------
+\usepackage[top=3cm,left=3cm,right=2cm,bottom=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage[normalem]{ulem}   % Sublinhar textos
+\usepackage{pslatex}          % Usa fontes standard ao invés das fontes do
+                              % LaTeX, melhorando a qualidade dos pdfs gerados
+\usepackage{verbatim}
+% ------------------------------------------------------------------------------
+
+\title
+{
+    \vspace{1.5cm}
+    \begin{table}[h]
+    \centering
+    \setlength{\arrayrulewidth}{3.5\arrayrulewidth}
+        \begin{tabular}{c}
+        \hline\\
+        \vspace{0.3cm}
+        \Huge Android Patterns Checks: uso de Android Lint \\
+        \Huge para verificação de aderências a guidelines\\
+        \hline
+        \end{tabular}
+    \end{table}
+}
+\author
+{
+    Adorilson Bezerra\\
+    \{adorilson@ppgsc.ufrn.br\}
+}
+\date{\vspace{1.5cm}\today}
+
+% ------------------------------------------------------------------------------
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoffigures
+
+\pagebreak
+\pagenumbering{arabic}
+
+\pagestyle{headings}
+
+\include{introducao}
+\include{detalhamento}
+\include{conclusao}
+
+% ==============================================================================
+\nocite*
+\bibliographystyle{apalike}
+%\bibliographystyle{abnt-alf}
+\bibliography{biblio}
+
+% ==============================================================================
+\end{document}
