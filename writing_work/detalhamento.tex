@@ -203,3 +203,30 @@ em relação a dados persistentes é necessário que eles sejam salvos no métod
 já que o {\it onSaveInstanceState(Bundle)} não faz parte do ciclo de vida, não sendo chamado 
 em todas as situações.
 
+% ..............................................................................
+\section{Pontos de variações em dispositivos com Android}
+
+Nessa seção, apresentaremos os pontos de variação em dispositivos com Android,
+quando possível apresentaremos um exemplo com a aplicação Froid, ou trecho diversos.
+
+\subsection{Versão da API}
+
+A primeira versão da API do Android foi disponibilizada em outubro de 2008. De lá 
+para cá, ele vem passando por diversas modificações, sendo a maioria deles 
+introdução ou substituições de funcionalidades. Como partes da API são autualizadas, 
+as partes antigas são marcadas como obsoletas e não removidas, assim aplicações feitas
+com versões antigas da API continuarão funcionando nas mais recentes.
+
+As versões da API são identificadas por um valor inteiro único chamado de {\it API Level},
+distribuidas juntamente com as versões da plataforma Android. A Figura \ref{api_level} 
+apresenta a relação entre versão da plataforma e {\it API Level}, além da distribuição.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=15cm]{img/api_level}
+    \caption[Distribuição da versão da plataforma e API Level]{Distribuição da versão
+    da plataforma e API Level (Fonte: \cite{platform_versions}) }
+    \label{api_level}
+\end{figure}
+
+
