@@ -89,3 +89,12 @@ Lint usa a biblioteca ASM\footnote{http://asm.ow2.org/} para processar arquivos 
 e produz um objeto ClassNode, que é então passado para cada ClassScanner. Os detectors 
 poderão usar esses ClassNodes para analisar o bytecode conforme a necessidade.
 
+\subsection{Reportando erros}
+O Lint fornece uma infraestrutura simplificada para reportar os problemas encontrados. 
+Basta chamar o método report() no objeto context (que é passado para cada método do detector.). 
+Além do problema (Issue) em si, também pode ser fornecido uma localização, um “escopo do nó”, 
+e uma mensagem. A localização é o ponto onde o erro ocorreu, o local no DOM se for um XML ou 
+o nó da árvore AST se for um código-fonte Java, que irá permitir saber o local exato do arquivo 
+onde ocorreu o erro. O “escopo do nó” é o nó AST/XML mais próximo em volta do local do erro. 
+Usualmente é o mesmo nó de onde foi criado a localização.
+
