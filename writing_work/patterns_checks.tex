@@ -39,7 +39,53 @@ projeto na seção {\it lintoptions}, conforme mostra figura \ref{lintoptions}:
 \begin{figure}[h]
     \centering
     \includegraphics[width=5cm]{img/lintoptions}
-    \caption[]{Trecho do arquivo build.gladle, indicando que as regras ButtonOrder e NewApi devem ser executadas}
+    \caption[]{Trecho do arquivo build.gladle, indicando que as regras ButtonOrder e 
+    NewApi devem ser executadas}
     \label{lintoptions}
 \end{figure}
+
+\section{Criação de novas regras}
+
+Quando são necessárias regras não definidas pelo Lint, novas regras podem ser criadas. 
+No entanto, devemos observar que a API do Lint ainda não está estável. Assim, mudanças 
+deverão ser necessárias no futuro. Além disso, não existe uma documentação adequada 
+dessa API, sendo necessária a leitura do código-fonte tanto da API quanto das regras 
+pré-definidas.
+
+Para criar uma nova regra, precisamos fazer a distinção entre “issue” e “detector”. 
+“Issue” é um tipo de problema que iremos localizar e mostrar para o desenvolvedor. 
+O responsável por fazer essa busca e detecção é um “Detector”.
+
+O tipo de artefato do projeto relacionado ao Issue e que será analisado pelo 
+Detector é denominado escopo, que pode ser: arquivos de recursos, código-fonte Java, 
+arquivos .class, arquivos de configuração do Proguard e arquivo de manifesto. Quando 
+um Issue é criado, seu escopo é definido a partir da classe “Scope”. Por exemplo, 
+um Issue relacionado a problemas no arquivo de manifesto tem seu escopo definido 
+com Scope.MANIFEST. Esse escopo também terá impacto em quais interfaces um detector 
+deverá implementar.
+
+De acordo com a análise necessária, detectors deverão implementar uma ou mais das 
+seguintes interfaces: Detector.XmlScanner, Detector.JavaScanner, Detector.ClassScanner. 
+Por exemplo, para um detector com escopo para o arquivo de manifesto, deverá implementar 
+a interface XmlScanner. E então deveremos implementar o método “visitDocument”, que será 
+chamado uma vez para cada arquivo XML, e irá retorno o DOM do XML, que poderá ser utilizado 
+para a análise necessária. Contudo, muitas vezes estamos interessados em um tag ou um atributo 
+em particular, ou em um conjunto deles. Nesses casos, podemos implementar os métodos 
+“getApplicableElements” e/ou “getApplicableAttributes”, que retornam uma lista de strings 
+com os nomes das tags ou atributos. Então, implementamos os métodos “visitElement” e/ou 
+“visitAttribute”, que serão chamados para cada item das listas retornadas pelos métodos 
+citados anteriormente.
+
+Para analisar código-fonte Java, deve-se implementar a interface JavaScanner, da 
+qual alguns métodos deverão ser implementados. Entre eles o “createJavaVisitor”, 
+que deverá retornar um objeto AstVisitor do projeto Lombok\footnote{https://projectlombok.org/}, 
+utilizado pelo Lint para representar ASTs. Também existem alguns métodos para facilitar 
+a analise, como o “getApplicableNodeTypes” que especifica tipos de nós a serem analisados 
+e “getApplicableMethods”, onde pode ser definido um conjunto de métodos da aplicação
+em que estamos interessados.
+
+Já para analise de bytecode a interface ClassScanner é que deverá ser implementada. 
+Lint usa a biblioteca ASM\footnote{http://asm.ow2.org/} para processar arquivos .class, que percorre os arquivos 
+e produz um objeto ClassNode, que é então passado para cada ClassScanner. Os detectors 
+poderão usar esses ClassNodes para analisar o bytecode conforme a necessidade.
 
