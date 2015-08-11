@@ -73,4 +73,31 @@ e fazer com que a activity {\it MMUnBActivity} herde da classe
     \label{herda_FragmentActivity}
 \end{figure}
 
+Além de ser um container de fragmentos, é também necessário que a activity seja,
+de fato, composto por eles. Existem duas formas de fazer essa composição:
+declarando o fragmento no arquivo XML de layout da activity ou programaticamente
+adicionando o fragmento na activity. Nessa proposta inicial, foi considerada
+somente a forma programatica.
 
+Para fazer a inclusão de forma programatica, um determinado conjunto de métodos
+deverá ser executado: {\it getSupportFragmentManager} para obter um objeto {\it
+FragmentManager}. Então chamar {\it beginTransaction()} para criar um {\it
+FragmentTransaction} e, por fim, {\it add()} para adicionar o fragmento. Também
+deve ser executado {\it commit()} quando realizamos múltiplas transações de 
+fragmentos com o mesmo {\it FragmentTransaction}. Um exemplo disso pode ser visto
+na figura \ref{adicao_fragmento}, que apresenta o método {\it onCreate} da classe
+{\it MMUnBActivity}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=15cm]{img/add_fragment.png}
+    \caption{Adicionando framentos de forma programática}
+    \label{adicao_fragmento}
+\end{figure}
+
+Embora vários métodos sejam utilizados, nessa abordagem verificamos apenas se o
+o método {\it beginTransaction()} do {\it FragmentManager} é chamado a partir do
+{\it onCreate()} da activity, inclusive de forma recursiva. Empiricamente,
+acreditamos que se esse método está sendo chamado, os demais necessários para a
+adição do correta do(s) fragmento(s) a activity também estão. Essa analise é feita
+para cada classe da aplicação que estende {\it FragmentActivity}.
