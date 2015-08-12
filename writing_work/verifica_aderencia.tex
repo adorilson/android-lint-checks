@@ -26,8 +26,11 @@ em http://developer.android.com/guide/practices/tablets-and-handsets.html\#Guide
 \end{itemize}
 
 Neste trabalho, apresentamos uma proposta para automatizar a verificação dos dois 
-primeiros itens desse guia. 
+primeiros itens desse guia. Quanto ao terceiro item, usar fragmentos é parte da
+implementação de layouts flexíveis.
 
+\section{Uso da API Fragments}
+\label{uso_fragments}
 Para a nossa abordagem, definimos que os seguintes items devem ser verificados: 
 \begin{itemize}
     \item{As activities deverão ser um “container” de fragmentos;}
@@ -99,5 +102,31 @@ Embora vários métodos sejam utilizados, nessa abordagem verificamos apenas se 
 o método {\it beginTransaction()} do {\it FragmentManager} é chamado a partir do
 {\it onCreate()} da activity, inclusive de forma recursiva. Empiricamente,
 acreditamos que se esse método está sendo chamado, os demais necessários para a
-adição do correta do(s) fragmento(s) a activity também estão. Essa analise é feita
+adição do correta do(s) fragmento(s) a activity também estão. Essa análise é feita
 para cada classe da aplicação que estende {\it FragmentActivity}.
+
+\section{Uso da API ActionBar}
+
+A partir do Android 3.0 (API Level 11), a action bar é incluida em todas as
+activities que usam o tema Theme.Holo (ou um dos seus descendentes), e que é o
+tema padrão quando os atributos {\it targetSdkVersion} ou {\it minSdkVersion}
+estão definidos para "11" ou maior.
+
+Para versões anteriores, é possível utilizar o pacote de compatibilidade V7.
+Nesse caso, serão necessários dois passos adicionais:
+
+\begin{itemize}
+  \item{A activity deve estender ActionBarActivity;}
+  \item{A activity deve usar um tema da família Theme.AppCompat, como o
+  Theme.AppCompat.Light}
+\end{itemize}
+
+Para o primeiro item, a verificação e feita de forma semelhante ao apresentação
+na seção \ref{uso_fragments}. Inclusive ActionBarActivity herda de FragmentActivity.
+Assim, essa verificação não inválida a descrita naquela seção.
+
+Quando uma activity atende ao primeiro item, o segundo é analisado. Para tal,
+é recuperado do arquivo de manifesto o elemento referente à activity e então
+o atributo {\it theme} é comparado com {\it Theme.AppCompat.Light}, reportando
+um erro caso seja diferente.
+
