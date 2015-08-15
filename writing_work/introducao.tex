@@ -34,8 +34,27 @@ erros comuns em aplicações e possui uma estrutura extensível, sobre a qual po
 ser desenvolvidos novas verificações que atendessem à necessidade citada acima
 
 % ------------------------------------------------------------------------------
-\section{Limitação dos trabalhos relacionados}
+\section{Limitação des trabalhos relacionados}
+Muitos trabalhos utilizam análise estática para fazer algum tipo de verificação
+em aplicações Android, no entanto, a maioria foca questões como segurança e
+desempenho. Poucos trabalhos tratam de questões relacionadas a padrões e boas
+práticas de desenvolvimento.
 
+\cite{findbug_10k} analisa 10.000 mil aplicações Android gratuitas para donwload,
+e compara se os problemas localizados correspondem às críticas dos usuários. No
+entanto, utiliza o Findbugs\footnote{Disponível em http://findbugs.sourceforge.net/}
+e a analise é feita do byte-code das aplicações. Mas não limita-se a usar as validações
+já predefinidas.
+
+Android Lint é utilizado em \cite{lintent}, que propõe um framework para checagem
+de tipos em aplicações Android, com fins de melhorar a segurança das aplicações.
+Mas limitasse a esse aspecto.
+
+Wala\footnote{Disponível em http://wala.sourceforge.net/} também é utilizado para
+analise sintática de aplicações, no entanto, seu suporte para análise de código-fonte
+dos projetos Android é deficitário. Trabalhos realizados com ele, sempre utilizando
+análise de byte-codes, no entanto, projetos Android possuem várias outros artefatos 
+que também precisam ser analisados.
 
 \section{Contribuição do trabalho}
 Escrever a contribuição dessa trabalho...
