@@ -19,6 +19,8 @@
 \usepackage{pslatex}          % Usa fontes standard ao invés das fontes do
                               % LaTeX, melhorando a qualidade dos pdfs gerados
 \usepackage{verbatim}
+\usepackage{pdflscape}
+\usepackage{longtable}
 % ------------------------------------------------------------------------------
 
 \title
@@ -64,11 +66,12 @@
 \include{verifica_aderencia}
 \include{conclusao}
 
+
 % ==============================================================================
 \nocite*
 \bibliographystyle{apalike}
 %\bibliographystyle{abnt-alf}
 \bibliography{biblio}
-
+\include{apendice}
 % ==============================================================================
 \end{document}
