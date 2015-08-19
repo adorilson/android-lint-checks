@@ -1,2 +1,42 @@
 \chapter{Conclusão}
-Escrever a conclusão do trabalho...
+\label{conclusao}
+A plataforma Android oferece diversos mecanismos para o tratamento de variabilidades
+em uma aplicacão. A documentação oficial da plataforma dispõe de guidelines de 
+padrões de implementação dessas variabilidades, sem no entanto, fornecer uma ferramenta
+que possa auxiliar aos desenvolvedores a verificação dessas orientações.
+
+Nesse trabalho, apresentamos o Android Lint como uma alternativa para tal tarefa.
+Fizemos o mapeamento das regras preexistentes relacionadas a essas variabilidades
+e exploramos a capacidade extensão do Android Lint com novas regras. 
+
+As novas regras criadas auxiliam na tarefa de prover suporte adequado e otimizado
+para tablets e handsets. As seguintes verificações são feitas:
+\begin{itemize}
+  \item{Activities devem ser um container de fragmentos (por exemplo, herdar da
+  classe FragmentActivity)}
+  \item{Activities devem, de fato, ser composta por framentos}
+  \item{Activities devem extender de ActionBarActivity}
+  \item{O tema da activity deve ser {\it Theme.AppCompat.Light}}
+\end{itemize}
+
+Esse foi um trabalho preliminar, para validar a proposta. Além de ser necessário
+algum refinamento nessas novas regras definidas, outras regras devem ser analisadas
+e implementadas. Por exemplo, o estilo {\it Theme.AppCompat.Light} pode ser extendido
+e essa extensão utilizada nas activities. Essa extensão é prevista pela guideline,
+no entanto, na implementação atual ela não é considerada. Outra verificação a ser
+implementada diz respeito ao uso de classes/métodos/recursos presentes apenas em
+versões mais novas do Android, mas que podem ser substituidas por algo de versões
+mais antigas sem grandes prejuízos. Se faz necessário fazer o levantamento desses
+elementos e posterior implementação para indicar quando essas diferenças de API
+não estão sendo tratadas.
+
+Também é necessário compreender melhor o mecanismo de carregamento das classes no
+Android Lint. Devido algum detalhe de configuração, não foi possível fazer todas
+essas verificações em outras aplicações, por exemplo Google IO, que foi disponibilizada
+pela Google para ser utilizada como exemplo prático das melhores práticas para o
+desenvolvimento de aplicações Android
+\footnote{http://android-developers.blogspot.it/2014/07/google-io-2014-app-source-code-now.html}
+e AntennaPod\footnote{https://github.com/AntennaPod/AntennaPod}, um reprodutor de
+podcasts opensource.
+
+
