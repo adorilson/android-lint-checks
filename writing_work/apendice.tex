@@ -1,9 +1,9 @@
 \begin{landscape}
 \appendix
 \chapter{Checks predefinidos do Android Lint relacionados a padrões e variabilidades}
-
+\label{apd_cheks_uteis}
 \begin{longtable}{p{30mm}|p{180mm}|p{25mm}}
-%\caption[Feasible triples for a highly variable Grid]{Feasible triples for highly variable Grid, MLMMH.} \label{grid_mlmmh} \\
+%\caption[Feasible triples for a highly vari                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          able Grid]{Feasible triples for highly variable Grid, MLMMH.} \label{grid_mlmmh} \\
 
 \hline \multicolumn{1}{|c|}{\textbf{Check}} & \multicolumn{1}{c|}{\textbf{Descrição}} & \multicolumn{1}{c|}{\textbf{Variabilidade}} \\ \hline 
 \endfirsthead
@@ -211,9 +211,73 @@ Missing density folder
 
 Missing explicit orientation
 &The default orientation of a LinearLayout is horizontal. It's pretty easy to believe that the layout is vertical, add multiple children to it, and wonder why only the first child is visible (when the subsequent children are off screen to the right). This lint rule helps pinpoint this issue by warning whenever a LinearLayout is used with an implicit orientation and multiple children.  It also checks for empty LinearLayouts without an orientation attribute that also defines an id attribute. This catches the scenarios where children will be added to the LinearLayout dynamically.
-&Telas Diferentes
- 
-%\end{tabular}
+&Telas Diferentes\\
+
+Multiple <uses-sdk> elements in the manifest
+&The <uses-sdk> element should appear just once; the tools will not merge the contents of all the elements so if you split up the attributes across multiple elements, only one of them will take effect. To fix this, just merge all the attributes from the various elements into a single <uses-sdk> element.
+&Versão da API\\
+
+Not overriding abstract methods on older platforms
+&To improve the usability of some APIs, some methods that used to be abstract have been made concrete by adding default implementations. This means that when compiling with new versions of the SDK, your code does not have to override these methods.  However, if your code is also targeting older versions of the platform where these methods were still abstract, the code will crash. You must override all methods that used to be abstract in any versions targeted by your application's minSdkVersion.
+&API version\\
+
+Potential Plurals
+&This lint check looks for potential errors in internationalization where you have translated a message which involves a quantity and it looks like other parts of the string may need grammatical changes.  For example, rather than something like this: <string name="try\_again">Try again in \%d seconds.</string> you should be using a plural: <plurals name="try\_again"> <item quantity="one">Try again in \%d second</item> <item quantity="other">Try again in \%d seconds</item> </plurals> This will ensure that in other languages the right set of translations are provided for the different quantity classes.  (This check depends on some heuristics, so it may not accurately determine whether a string really should be a quantity. You can use tools:ignore to filter out false positives.
+&Internacionalização\\
+
+Right-to-left text compatibility issues
+&API 17 adds a textAlignment attribute to specify text alignment. However, if you are supporting older versions than API 17, you must also specify a gravity or layout\_gravity attribute, since older platforms will ignore the textAlignment attribute.
+&Versão da API\\
+
+Suspicious 0dp dimension
+&Using 0dp as the width in a horizontal LinearLayout with weights is a useful trick to ensure that only the weights (and not the intrinsic sizes) are used when sizing the children.  However, if you use 0dp for the opposite dimension, the view will be invisible. This can happen if you change the orientation of a layout without also flipping the 0dp dimension in all the children.
+&Telas diferentes\\
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+Suspicious Language/Region Combination
+&Android uses the letter codes ISO 639-1 for languages, and the letter codes ISO 3166-1 for the region codes. In many cases, the language code and the country where the language is spoken is the same, but it is also often not the case. For example, while 'se' refers to Sweden, where Swedish is spoken, the language code for Swedish is not se (which refers to the Northern Sami language), the language code is sv. And similarly the region code for sv is El Salvador.  This lint check looks for suspicious language and region combinations, to help catch cases where you've accidentally used the wrong language or region code. Lint knows about the most common regions where a language is spoken, and if a folder combination is not one of these, it is flagged as suspicious.  Note however that it may not be an error: you can theoretically have speakers of any language in any region and want to target that with your resources, so this check is aimed at tracking down likely mistakes, not to enforce a specific set of region and language combinations.
+&Internacionalização\\
+
+Target SDK attribute is not targeting latest version
+&When your application runs on a version of Android that is more recent than your targetSdkVersion specifies that it has been tested with, various compatibility modes kick in. This ensures that your application continues to work, but it may look out of place. For example, if the targetSdkVersion is less than 14, your app may get an option button in the UI.  To fix this issue, set the targetSdkVersion to the highest available value. Then test your app to make sure everything works correctly. You may want to consult the compatibility notes to see what changes apply to each version you are adding support for: http://developer.android.com/reference/android/os/Build.VERSION\_CODES.html
+&Versão da API\\
+
+Unused quantity translations
+&Android defines a number of different quantity strings, such as zero, one, few and many. However, many languages do not distinguish grammatically between all these different quantities.  This lint check looks at the quantity strings defined for each translation and flags any quantity strings that are unused (because the language does not make that quantity distinction, and Android will therefore not look it up.). For example, in Chinese, only the other quantity is used, so even if you provide translations for zero and one, these strings will not be returned when getQuantityString() is called, even with 0 or 1.
+&Internacionalização\\
+
+Unused resources
+&Unused resources make applications larger and slow down builds.
+&Capacidade do aparelho (armazenameto e velocidade de conexão, do por exemplo)\\
+
+Using 'px' dimension
+&For performance reasons and to keep the code simpler, the Android system uses pixels as the standard unit for expressing dimension or coordinate values. That means that the dimensions of a view are always expressed in the code using pixels, but always based on the current screen density. For instance, if myView.getWidth() returns 10, the view is 10 pixels wide on the current screen, but on a device with a higher density screen, the value returned might be 15. If you use pixel values in your application code to work with bitmaps that are not pre-scaled for the current screen density, you might need to scale the pixel values that you use in your code to match the un-scaled bitmap source. 
+&Telas diferentes\\
+
+Using 3-letter Codes
+&For compatibility with earlier devices, you should only use 3-letter language and region codes when there is no corresponding 2 letter code.
+&Dispositivos diferentes\\
+
+Using dp instead of sp for text sizes
+&When setting text sizes, you should normally use sp, or "scale-independent pixels". This is like the dp unit, but it is also scaled by the user's font size preference. It is recommend you use this unit when specifying font sizes, so they will be adjusted for both the screen density and the user's preference.  There are cases where you might need to use dp; typically this happens when the text is in a container with a specific dp-size. This will prevent the text from spilling outside the container. Note however that this means that the user's font size settings are not respected, so consider adjusting the layout itself to be more flexible.
+&Telas diferentes\\
+
+Using inlined constants on older versions
+&This check scans through all the Android API field references in the application and flags certain constants, such as static final integers and Strings, which were introduced in later versions. These will actually be copied into the class files rather than being referenced, which means that the value is available even when running on older devices. In some cases that's fine, and in other cases it can result in a runtime crash or incorrect behavior. It depends on the context, so consider the code carefully and device whether it's safe and can be suppressed or whether the code needs tbe guarded.  If you really want to use this API and don't need to support older devices just set the minSdkVersion in your build.gradle or AndroidManifest.xml files. If your code is deliberately accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the @TargetApi annotation specifying the local minimum SDK to apply, such as @TargetApi(11), such that this check considers 11 rather than your manifest file's minimum SDK as the required API level.
+&Versão da API\\
+
+Using Wrong AppCompat Method
+&When using the appcompat library, there are some methods you should be calling instead of the normal ones; for example, getSupportActionBar() instead of getActionBar(). This lint check looks for calls to the wrong method.
+&Versão da API\\
+
+Wrong case for view tag
+&Most layout tags, such as <Button>, refer to actual view classes and are therefore capitalized. However, there are exceptions such as <fragment> and <include>. This lint check looks for incorrect capitalizations.
+&Uso de fragmentos\\
+
+Wrong locale name
+&From the java.util.Locale documentation: "Note that Java uses several deprecated two-letter codes. The Hebrew ("he") language code is rewritten as "iw", Indonesian ("id") as "in", and Yiddish ("yi") as "ji". This rewriting happens even if you construct your own Locale object, not just for instances returned by the various lookup methods.  Because of this, if you add your localized resources in for example values-he they will not be used, since the system will look for values-iw instead.  To work around this, place your resources in a values folder using the deprecated language code instead.
+&Internacionalização
+
+
 \end{longtable}
 
 \end{landscape}
