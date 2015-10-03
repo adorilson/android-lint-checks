@@ -70,7 +70,7 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
             "ActivityShouldUsesThemeAppCompatLight", "The activity should extends the "
             		+ THEME_APPCOMPAT_LIGHT + " theme",
             "Checks if the activity uses the "
-            + CLASS_V7_ACTIONBARACTIVITY + " theme",
+            + THEME_APPCOMPAT_LIGHT + " theme",
             Category.CORRECTNESS, 6, Severity.FATAL,
             new Implementation(
             		PatternsDetector.class,
