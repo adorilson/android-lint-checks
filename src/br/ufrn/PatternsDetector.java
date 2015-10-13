@@ -45,9 +45,9 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 	private boolean DEBUG = false;
 	
 	public static final Issue CHECKFRAGMENTACTIVITY = Issue.create(
-            "MainActivityIsFragmentActivity", "The main activity should extends"
+            "MainActivityIsFragmentActivity", "The main activity should extends "
             		+ "FragmentActivity class",
-            "Checks if the main activity defined in manifest file extends the"
+            "Checks if the main activity defined in manifest file extends the "
             + "FragmentActivity class",
             Category.CORRECTNESS, 6, Severity.WARNING,
             new Implementation(
@@ -171,7 +171,7 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 						System.out.println("Extends " + CLASS_V4_FRAGMENTACTIVITY);
 					}
 				}
-				
+
 				boolean isActionBarActivity = rClass.isSubclassOf(CLASS_V7_ACTIONBARACTIVITY, false);
 				if (!isActionBarActivity){
 					report_actionbar(node);
@@ -206,10 +206,12 @@ public class PatternsDetector extends ResourceXmlDetector implements JavaScanner
 			}
 			
 			if(activity.getTheme()==null){
-				mContext.report(USESTHEMEAPPCOMPATLIGHT, mContext.getLocation(node), "Should uses the @style/Theme.AppCompat.Light style");
+				mContext.report(USESTHEMEAPPCOMPATLIGHT, mContext.getLocation(node),
+						"Should uses the @style/Theme.AppCompat.Light style");
 			}else{
 				if (!activity.getTheme().equals(THEME_APPCOMPAT_LIGHT)){
-					mContext.report(USESTHEMEAPPCOMPATLIGHT, mContext.getLocation(node), "Should uses the @style/Theme.AppCompat.Light style");
+					mContext.report(USESTHEMEAPPCOMPATLIGHT, mContext.getLocation(node),
+							"Should uses the @style/Theme.AppCompat.Light style");
 				}
 			}
 		}

@@ -2,12 +2,16 @@ package br.ufrn;
 
 import java.util.ListIterator;
 
+import lombok.ast.ClassDeclaration;
+
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.android.annotations.NonNull;
+import com.android.tools.lint.client.api.JavaParser.ResolvedClass;
+import com.android.tools.lint.client.api.JavaParser.ResolvedNode;
 import com.android.tools.lint.detector.api.Category;
 import com.android.tools.lint.detector.api.ClassContext;
 import com.android.tools.lint.detector.api.Detector;
@@ -36,8 +40,8 @@ public class UsesFragmentTransaction extends Detector implements Detector.ClassS
 	public static final Issue ISSUE = Issue.create(
 			"UsesFragmentTransaction", //$NON-NLS-1$
 			"Looks if the app uses a FragmentTransation",
-			"In order to use fragments API, the application should uses a FragmentTransaction." +
-					"This detector look for call to FragmentManager.beginTransaction method in activities classes.",
+			"In order to use fragments API, the application should uses a FragmentTransaction. " +
+			"This detector look for call to FragmentManager.beginTransaction method in activities classes.",
 			Category.CORRECTNESS,
 			9,
 			Severity.WARNING,
@@ -47,7 +51,7 @@ public class UsesFragmentTransaction extends Detector implements Detector.ClassS
 	 * Make sure you add the asm-debug or asm-util jars to the runtime classpath
 	 * as well since the opcode integer to string mapping display routine looks for
 	 * it via reflection. */
-	private static boolean DEBUG = false;
+	private static boolean DEBUG = true;
 
 	/** Constructs a new {@link UsesFragmentTransaction} */
 	public UsesFragmentTransaction() {
@@ -64,8 +68,9 @@ public class UsesFragmentTransaction extends Detector implements Detector.ClassS
 			System.out.println("classNode.name:" + classNode.name);
 			System.out.println("classNode.superName: " + classNode.superName);
 			System.out.println("location = " + location);
-			
-			showParents(context, classNode);
+			System.out.println("parents = [" );
+				showParents(context, classNode);
+			System.out.println("]" );
 		}
 		
 		if (!context.getDriver().isSubclassOf(classNode, FRAGMENT_ACTIVITY_V4)) {
@@ -95,7 +100,8 @@ public class UsesFragmentTransaction extends Detector implements Detector.ClassS
 	}
 	
 	@SuppressWarnings("unchecked") // ASM API
-	private boolean checkIfCallBeginTransation_aux(ClassNode classNode, @NonNull MethodNode method) {
+	private boolean checkIfCallBeginTransation_aux(ClassNode classNode, 
+													@NonNull MethodNode method) {
 		if(DEBUG){
 			System.out.println("Checking... " + method.name + " " + method.desc);
 			System.out.println("classNode.name = " + classNode.name);
@@ -118,7 +124,9 @@ public class UsesFragmentTransaction extends Detector implements Detector.ClassS
 				}
 
 				if (methodInsnNode.owner.equals(classNode.name)){
-					MethodNode child = findMethod(classNode.methods, methodInsnNode.name, methodInsnNode.desc);
+					MethodNode child = findMethod(classNode.methods,
+													methodInsnNode.name,
+													methodInsnNode.desc);
 
 					if(child!=null){
 						return checkIfCallBeginTransation_aux(classNode, child);
