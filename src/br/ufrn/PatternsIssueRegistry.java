@@ -14,7 +14,8 @@ public class PatternsIssueRegistry extends IssueRegistry {
 	            PatternsDetector.CHECKFRAGMENTACTIVITY,
 	            PatternsDetector.USESACTIONBAR,
 	            UsesFragmentTransaction.ISSUE,
-	            PatternsDetector.USESTHEMEAPPCOMPATLIGHT
+	            PatternsDetector.USESTHEMEAPPCOMPATLIGHT,
+	            ThemeDetector.USESTHEMEAPPCOMPATLIGHT2
 	        );
 	}
 }
