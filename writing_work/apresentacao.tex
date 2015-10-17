@@ -1,0 +1,176 @@
+% ------------------------------------------------------------------------------
+% Apresentação: Uso de Android Lint para verificação de aderências a guidelines
+% Autores:
+%     Adorilson Bezerra <adorilson@ppgsc.ufrn.br>
+% Licença Creative Commons Atribuição 3.0. 
+% Você pode usar e alterar este documento, 
+% mas deve obrigatoriamente citar a autoria. 
+% ------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+% ------------------------------------------------------------------------------
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{beamerthemesplit}
+\usepackage{ae}
+\usepackage{alltt}
+\usepackage{pslatex}
+% ------------------------------------------------------------------------------
+
+\usecolortheme{beaver}
+
+% ------------------------------------------------------------------------------
+\title[Uso de Android Lint para verificação de aderências a guidelines]
+{
+    Uso de Android Lint para verificação de aderências a guidelines
+}
+\subtitle{}
+\author[Adorilson Bezerra]
+{
+    Adorilson Bezerra
+}
+\institute{Universidade Federal do Rio Grande do Norte\\
+            Departamento de Informática e Matemática Aplicada}
+\date{\today}
+%\logo{\includegraphics[scale=0.2]{img/android}}
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+\frame{\titlepage}
+% ------------------------------------------------------------------------------
+
+\section{Introdução}
+    \subsection{Motivação}
+    \frame
+    {
+        \frametitle{Motivação}
+        \begin{itemize}
+            \item Grande variabilidades de dispositivos suportados pela plataforma
+            Android
+            \begin{itemize}
+                \item Tamanho e qualidade de tela, existência ou não de recursos
+                como telefone GSM, bluetooth, EDGE, 3G, WiFi, câmera, GPS, bússola, e
+                acelerômetro entre outros.
+            \end{itemize}
+            \item Guideline oficial para tratar essas variabilidades
+            \begin{itemize}
+                \item Supporting Tablets and Handsets
+            \end{itemize}
+        \end{itemize}
+    }
+    \subsection{Problema}
+    \frame
+    {
+        \frametitle{Problema}
+        \begin{itemize}
+            \item Verificação e aderência a esses padrões é feito de forma manual,
+            pelos próprios desenvolvedores
+            \item Esses padrões podem ser desconhecidos por eles
+            \item Análise estática pode ser utilizada para suprir esse necessidade
+        \end{itemize}
+    }
+    \subsection{Limitações de Trabalhos Atuais}
+    \frame
+    {
+        \frametitle{Limitações de Trabalhos Atuais}
+        \begin{itemize}
+            \item \cite{findbug_10k} analisa 10.000 mil aplicações Android gratuitas
+            para download, comparando os resultados encontradas com as críticas feitos
+            pelos usuários
+            \begin{itemize}
+                \item Utiliza Findbugs, limita-se a usar as validações já pre-definidas
+                e analise apenas byte-code
+            \end{itemize}
+            \item Android Lint é utilizado em \cite{lintent}, que propõe um framework
+            para checagem de tipos em aplicações Android, com fins de melhorar a
+            segurança das aplicações.
+            \item Wala\footnote{Disponível em http://wala.sourceforge.net/} também
+            é utilizado para analise sintática de aplicações, no entanto, seu suporte
+            para análise de código-fonte dos projetos Android é deficitário.
+        \end{itemize}
+    }
+    \frame
+    {   
+        \frametitle{Limitações de Trabalhos Atuais}
+        \begin{itemize}
+            \item \cite{bad_practice_finder} utiliza Lint na busca por más práticas
+            de desenvolvimento, que poderão causar problemas como vazamento e falta
+            de memória e travamento de aplicação.
+            \begin{itemize}
+                \item Valida a abordagem em 100 aplicações open-source, obtidas
+                no F-Droid\footnote{https://f-droid.org/}.
+                \item Relaciona os resultados obtidos com a avaliação feitas pelos
+                usuários da applicação na Google Play
+                \item Limitado os aspectos citados, não explora usa de padrões de
+                construção
+            \end{itemize}
+        \end{itemize}
+    }
+    
+    \subsection{Trabalho proposto}
+    \frame
+    {
+        \frametitle{Trabalho proposto}
+        \begin{itemize}
+            \item Implementação de novos checks para Android Lint
+            \begin{itemize}
+            \item Uso de Fragments
+                \begin{itemize}
+                    \item As activities devem herdar direta ou indiretamente de FragmentActivity
+                    \item A activity deve de fato ser composta por fragmentos
+                \end{itemize}
+            \item Uso de ActionBar
+                \begin{itemize}
+                    \item As activities devem herdar direta ou indiretamente de ActionBarActivity
+                    \item A activity deve usar o tema Theme.AppCompat.Light
+                \end{itemize}
+            \end{itemize}
+            \item{Validação da abordagem através da execução de projetos de código aberto}
+        \end{itemize}
+    }
+\section{Resultados parciais}
+    \subsection{Resultados parciais}
+    \frame
+    {
+        \frametitle{Resultados Parciais}
+        \begin{itemize}
+            \item 4 novos checks foram implementados
+            \begin{itemize}
+                \item 1 deles (checar uso do tema Theme.AppCompat.Light) precisa
+                ser refeito para suportar heranças indiretas
+            \end{itemize}
+            \item{Testados em 3 aplicações: MMUnB, AntennaPod e Google IO Schedule}
+                \begin{itemize}
+                    \item Apenas no Google IO ocorreu um falso negativo na verificação
+                    de heranças devido, provavelmente, estrutura do projeto ou class-loader.
+                \end{itemize}
+        \end{itemize}
+    }
+
+\section{Trabalhos Futuros}
+    \subsection{Conclusões e Trabalhos Futuros}
+    \frame
+    {
+        \frametitle{Conclusões e Trabalhos Futuros}
+        \begin{itemize}
+            \item Finalizar a implementação do check com problema
+            \item Executar em larga escala em centenas de aplicações
+            \item Colher resultados quantitativos e qualitativos
+        \end{itemize}
+    }
+
+%TODO add bibliografia
+\section{Bibliografia}
+    \subsection{Referencias}
+    \frame
+    {
+        \nocite*
+        \bibliographystyle{apalike}
+        \bibliography{biblio}
+    }
+
+\end{document}
