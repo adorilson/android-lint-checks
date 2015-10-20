@@ -78,14 +78,14 @@
     {
         \frametitle{Limitações de Trabalhos Atuais}
         \begin{itemize}
-            \item \cite{findbug_10k} analisa 10.000 mil aplicações Android gratuitas
+            \item [Khalid et al., 2015] analisa 10.000 mil aplicações Android gratuitas
             para download, comparando os resultados encontradas com as críticas feitos
             pelos usuários
             \begin{itemize}
                 \item Utiliza Findbugs, limita-se a usar as validações já pre-definidas
                 e analise apenas byte-code
             \end{itemize}
-            \item Android Lint é utilizado em \cite{lintent}, que propõe um framework
+            \item Android Lint é utilizado em [Bugliesi et al., 2013], que propõe um framework
             para checagem de tipos em aplicações Android, com fins de melhorar a
             segurança das aplicações.
             \item Wala\footnote{Disponível em http://wala.sourceforge.net/} também
@@ -97,7 +97,7 @@
     {   
         \frametitle{Limitações de Trabalhos Atuais}
         \begin{itemize}
-            \item \cite{bad_practice_finder} utiliza Lint na busca por más práticas
+            \item [Saglam, 2014] utiliza Lint na busca por más práticas
             de desenvolvimento, que poderão causar problemas como vazamento e falta
             de memória e travamento de aplicação.
             \begin{itemize}
@@ -163,14 +163,23 @@
         \end{itemize}
     }
 
-%TODO add bibliografia
 \section{Bibliografia}
     \subsection{Referencias}
     \frame
     {
-        \nocite*
-        \bibliographystyle{apalike}
-        \bibliography{biblio}
+        [Bugliesi et al., 2013] Bugliesi, M., Calzavara, S., and Span`o, A. (2013).
+        Lintent: Towards security type-checking of android applications. In Beyer,
+        D. and Boreale, M., editors, Formal Techniques for Distributed Systems,
+        volume 7892 of Lecture Notes in Computer Science, pages 289-304. Springer
+        Berlin Heidelberg
+
+        [Khalid et al., 2015] Khalid, H., Nagappan, M., and Hassan, A. (2015).
+        Examining the relationship between findbugs warnings and end user ratings:
+        A case study on 10,00 android apps. Software, IEEE, PP(99:)1-1
+
+        [Saglam, 2015] Saglam, I. (2014). Measuring and assesment of well known
+        bad practices in Android application developments
+    
     }
 
 \end{document}
