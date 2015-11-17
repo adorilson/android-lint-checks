@@ -17,6 +17,36 @@
 \usepackage{ae}
 \usepackage{alltt}
 \usepackage{pslatex}
+
+\usepackage{xcolor}
+% Definindo novas cores
+\definecolor{verde}{rgb}{0.25,0.5,0.35}
+\definecolor{jpurple}{rgb}{0.5,0,0.35}
+
+% Configurando layout para mostrar codigos Java
+\usepackage{listings}
+\lstset{
+  language=Java,
+  basicstyle=\tiny,
+  keywordstyle=\color{jpurple}\bfseries,
+  stringstyle=\color{red},
+  commentstyle=\color{verde},
+  morecomment=[s][\color{blue}]{/**}{*/},
+  extendedchars=true,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny,
+  breaklines=true,
+  backgroundcolor=\color{cyan!10},
+  breakautoindent=true,
+  captionpos=b,
+  xleftmargin=0pt,
+  tabsize=4,
+  fontadjust=true,
+  basewidth={0.6em,0.45em}
+}
+
 % ------------------------------------------------------------------------------
 
 \usecolortheme{beaver}
@@ -132,6 +162,148 @@
             \item{Validação da abordagem através da execução de projetos de código aberto}
         \end{itemize}
     }
+    
+\section{Android Lint}
+    \subsection{Fundamentos do Android Lint}
+    \frame
+    {
+        \frametitle{Fundamentos do Android Lint}
+        \begin{itemize}
+            \item Android Lint é uma ferramenta de análise de código estática que
+            verifica os arquivos fontes de um projeto Android em busca de potenciais
+            bugs e melhorias de otimização para corretude, segurana, performance,
+            usabilidade, acessibilidade e internacionalização
+            \item Pode ser executado integrado com alguma IDE ou na linha de comando
+            \item Relatórios em formato HTML e XML
+            \item Contem XX checks na versão YY do Android
+            \item Permite a escrita de novos checks
+        \end{itemize}     
+   }
+   \subsection{Arquitetura}
+   \frame
+   {
+        \frametitle{Arquitetura}
+        \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{img/lint_architecture}
+            \caption{Arquitetura do Android Lint (Fonte:[Saglam, 2014])}
+            \label{Fonte:[Saglam, 2014]}
+        \end{figure}
+   }
+   \frame
+   {
+        \frametitle{Arquitetura}
+        \begin{itemize}
+            \item Detector é uma classe que extende a classe abstrata {\it Detector}
+            para procurar por um problema. Um detector pode implementar uma ou mais
+            dessas três interfaces: {\it Detector.XmlScanner, Detector.JavaScanner e
+            Detector.ClassScanner}
+            \item Issues é uma classe de dados com informações, como descrição,
+            explicação, categoria e prioridade, sobre o problema procurado por um
+            Detector. Scopes define em qual tipo de arquivo de arquivo o problema
+            pode surgir. O scope de um issue pode ser arquivos de recursos, código
+            fonte Java, arquivos de classes, arquivos de configuração Proguard e
+            arquivos manifesto.
+         \end{itemize}
+   }
+   \frame
+   {
+        \frametitle{Arquitetura}
+        \begin{itemize}       
+            \item Visitors são classes providas pelo framework que realizam o parser
+            nos arquivos e obtem informações deles. O nível mais alto de um visitor
+            é a interface AstVisitor que define métodos para percorrer cada nó da 
+            arvore sintática abstrata (AST).
+            \item Reporting: quando o detector encontra um problema, ele chama o método
+            {\it report} do objeto de contexto, que é um objeto de uma subclasse de
+            {\it Context}, que pode ser {\it JavaContext, ClassContext e XmlContext}.
+            {\it Issue registry: responsável por registrar os novos checks no Lint}
+        \end{itemize}
+   }
+   \frame
+   {
+        \frametitle{Arquitetura}
+        Alguns issues possuem mais de um escopo. Por exemplo, deveria ser analisado
+        o arquivo manifesto e o código-fonte Java para encontrar um erro. No entanto,
+        a ordem de análise é predefinida, obrigando em alguns casos percorrer os
+        arquivos mais de um vez. A ordem definida pelo Lint é:
+        \begin{itemize}       
+            \item Arquivo manifesto
+            \item Arquivos de recursos
+            \item Código fonte Java (.java)
+            \item Arquivos de classes Java (.class)
+            \item Arquivos do Proguard
+        \end{itemize}
+   }
+   \subsection{Exemplificando}
+   \frame
+   {
+        \frametitle{Exemplificando}
+        Um detector pode tratar de vários Issue. A seguir veremos um exemplo de
+        um detector focando no issue que verifica se as activities herdam de FragmentActivity.
+        Serão apresentados os seguintes elementos:
+        \begin{itemize}
+            \item PatternDetector: classe detector
+            \item CHECKFRAGMENTACTIVITY: issue que descreve o problema a ser procurado
+            \item PerformanceVisitor: visitor que faz a analise da AST
+            \item context.report: chamada ao método report do objeto de context
+            \item PatternsIssueRegistry: registra novos issue no Lint
+        \end{itemize}
+        
+   } 
+
+   \frame
+   {
+    \frametitle{Issue CHECKFRAGMENTACTIVITY}
+    \lstinputlisting{Issue.java}
+   }
+   
+   \frame[allowframebreaks]
+   {
+    \frametitle{Detector PatternsDetector}
+    \lstinputlisting{PatternsDetector.java}
+   }
+   
+   \frame[allowframebreaks]
+   {
+    \frametitle{Visitor PerformanceVisitor e reporting}
+    \lstinputlisting{PerformanceVisitor.java}
+   }
+   
+   \frame
+   {
+    \frametitle{Issue registry PatternsIssueRegistry}
+    \lstinputlisting{PatternsIssueRegistry.java}
+   }
+   
+   \frame
+   {
+    \frametitle{Arquivo MANIFEST.MF (bônus)}
+    \lstinputlisting{../src/META-INF/MANIFEST.MF}
+   }
+   
+   \frame
+   {
+    \frametitle{Diagrama de classes do detector (API)}
+    \begin{figure}
+            \centering
+            \includegraphics[width=6.5cm]{img/detector_class_diagram}
+            \caption{Diagrama de classes do detector (Fonte:[Saglam, 2014])}
+            \label{Fonte:[Saglam, 2014]}
+        \end{figure}
+   }
+   
+   \frame
+   {
+    \frametitle{Diagrama de classes do detector implementado}
+    \begin{figure}
+            \centering
+            \includegraphics[width=6.5cm]{img/PatternsDetector}
+            \caption{Diagrama de classes do detector PatternsDetector}
+        \end{figure}
+   }
+   
+    
 \section{Resultados parciais}
     \subsection{Resultados parciais}
     \frame
