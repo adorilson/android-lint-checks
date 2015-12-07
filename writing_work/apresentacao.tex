@@ -1,9 +1,9 @@
 % ------------------------------------------------------------------------------
-% ApresentaÃ§Ã£o: Uso de Android Lint para verificaÃ§Ã£o de aderÃªncias a guidelines
+% Apresentação: Uso de Android Lint para verificação de aderências a guidelines
 % Autores:
 %     Adorilson Bezerra <adorilson@ppgsc.ufrn.br>
-% LicenÃ§a Creative Commons AtribuiÃ§Ã£o 3.0. 
-% VocÃª pode usar e alterar este documento, 
+% Licença Creative Commons Atribuição 3.0. 
+% Você pode usar e alterar este documento, 
 % mas deve obrigatoriamente citar a autoria. 
 % ------------------------------------------------------------------------------
 
@@ -52,9 +52,9 @@
 \usecolortheme{beaver}
 
 % ------------------------------------------------------------------------------
-\title[Uso de Android Lint para verificaÃ§Ã£o de aderÃªncias a guidelines]
+\title[Uso de Android Lint para verificação de aderências a guidelines]
 {
-    Uso de Android Lint para verificaÃ§Ã£o de aderÃªncias a guidelines
+    Uso de Android Lint para verificação de aderências a guidelines
 }
 \subtitle{}
 \author[Adorilson Bezerra]
@@ -62,7 +62,7 @@
     Adorilson Bezerra
 }
 \institute{Universidade Federal do Rio Grande do Norte\\
-            Departamento de InformÃ¡tica e MatemÃ¡tica Aplicada}
+            Departamento de Informática e Matemática Aplicada}
 \date{\today}
 %\logo{\includegraphics[scale=0.2]{img/android}}
 % ------------------------------------------------------------------------------
@@ -73,18 +73,18 @@
 \frame{\titlepage}
 % ------------------------------------------------------------------------------
 
-\section{IntroduÃ§Ã£o}
-    \subsection{MotivaÃ§Ã£o}
+\section{Introdução}
+    \subsection{Motivação}
     \frame
     {
-        \frametitle{MotivaÃ§Ã£o}
+        \frametitle{Motivação}
         \begin{itemize}
             \item Grande variabilidades de dispositivos suportados pela plataforma
             Android
             \begin{itemize}
-                \item Tamanho e qualidade de tela, existÃªncia ou nÃ£o de recursos
-                como telefone GSM, bluetooth, EDGE, 3G, WiFi, cÃ¢mera, GPS, bÃºssola, e
-                acelerÃ´metro entre outros.
+                \item Tamanho e qualidade de tela, existência ou não de recursos
+                como telefone GSM, bluetooth, EDGE, 3G, WiFi, câmera, GPS, bússola, e
+                acelerômetro entre outros.
             \end{itemize}
             \item Guideline oficial para tratar essas variabilidades
             \begin{itemize}
@@ -97,97 +97,153 @@
     {
         \frametitle{Problema}
         \begin{itemize}
-            \item VerificaÃ§Ã£o e aderÃªncia a esses padrÃµes Ã© feito de forma manual,
-            pelos prÃ³prios desenvolvedores
-            \item Esses padrÃµes podem ser desconhecidos por eles
-            \item AnÃ¡lise estÃ¡tica pode ser utilizada para suprir esse necessidade
+            \item Verificação e aderência a esses padrões é feito de forma manual,
+            pelos próprios desenvolvedores
+            \item Esses padrões podem ser desconhecidos por eles
+            \item Análise estática pode ser utilizada para suprir esse necessidade
         \end{itemize}
     }
-    \subsection{LimitaÃ§Ãµes de Trabalhos Atuais}
+    \subsection{Trabalhos relacionados}
     \frame
     {
-        \frametitle{LimitaÃ§Ãµes de trabalhos atuais}
+        \frametitle{Trabalhos relacionados}
         \begin{itemize}
-            \item Em [Bajwa, 2015] FindBugs e Android Lint sÃ£o utilizados para mapear
-            bugs nÃ£o-intencionais e vulnerabilidades em aplicaÃ§Ãµes Android a partir
-            da analise do cÃ³digo-fonte destas.
-            \item ContribuiÃ§Ã£o: uso de analise estÃ¡tica para mapear bugs e vulnerabilidades
-            \item continua no slide seguinte...
+          \item Em [Gjoshevski, 2015] é realizado um análise da qualidade do código
+          de aplicações Android
+          \item Contribuição: respostas às seguintes questões
+          \begin{itemize}
+            \item RQ1: Há grandes variações entre as diversas qualidades do código
+            fonte de aplicações móveis?
+                \begin{itemize}
+                  \item R: Não foram encontradas grandes variações. Os autores acreditam
+                  que pelo fato do uso de ferramentas como Android Lint integradas as IDEs
+                \end{itemize}
+            \item A quantidade de linhas de código tem uma influência direta no débito
+            técnico de aplições móveis?
+                \begin{itemize}
+                  \item R:  Não foi encontrada relaçao entre a quantidade de linhas e o
+                  débito técnico nas aplicações
+                \end{itemize}
+            \item Quais são os probleas mais comuns encontrados nas aplicações análisadas?
+                \begin{itemize}
+                  \item R: modificadores de visibilidade, outros, linhas de código comentadas,
+                  números mágicos, métodos privados nao-utilizados...
+                \end{itemize}
+          \end{itemize}
         \end{itemize}
-            
-    }
-    \frame
+    }\frame
     {
-        \frametitle{LimitaÃ§Ãµes de trabalhos atuais}
+        \frametitle{Trabalhos relacionados}
         \begin{itemize}
         \item Pontos positivos:
                 \begin{itemize}
-                    \item Mapeamento entre bugs e vulnerabilidades, daÃ­ a importÃ¢ncia
-                    evitÃ¡-los
-                    \item Analise do cÃ³digo-fonte
+                    \item Apresenta detalhes de como o estudo foi feito
+                    \item Usa Android Lint + plataforma SonarQube e o método SQALE
+                    \item Usa ISO/IEC 9126 como modelo de qualidade
+                    \item Deixa claros quais são das RQs e duas respostas
+                    \item 140 (Lint) + 197 (Sonar Way) = 237 regras
+                    \item Resultados por categorias e bugs especificos
+                \end{itemize}
+            \item Pontos negativos    
+                \begin{itemize}
+                    \item Não estende Lint
+                    \item Analise "apenas" 30 aplicações
+                    \item Seleção completamente aleatória, sem nenhum critério de filtro
+                    \item Além das regras já definidas no Lint, não trata explicitamente
+                    dos padrões definidos para a plataforma Android
+                \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Bajwa, 2015] FindBugs e Android Lint são utilizados para mapear
+            bugs não-intencionais e vulnerabilidades em aplicações Android a partir
+            da analise do código-fonte destas.
+            \item Contribuição: uso de analise estática para mapear bugs e vulnerabilidades
+            \item continua no slide seguinte...
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+        \item Pontos positivos:
+                \begin{itemize}
+                    \item Mapeamento entre bugs e vulnerabilidades, daí a importância
+                    evitá-los
+                    \item Analise do código-fonte
                     \item Uso de Findbugs e Android Lint
                 \end{itemize}
             \item Pontos negativos    
                 \begin{itemize}
-                    \item NÃ£o deixa claro como obteve os projetos do Github (manual ou automÃ¡tico?)
-                    \item NÃ£o disponibiliza ferramenta e nem detalhes de uso do Findbugs e Lint
+                    \item Não deixa claro como obteve os projetos do Github (manual ou automático?)
+                    \item Não disponibiliza ferramenta e nem detalhes de uso do Findbugs e Lint
                     \item Mostra apenas parte do resultado
-                    \item NÃ£o estende Lint nem Findbug
-                    \item Parte da analise Ã© manual
-                    \item O mapeamento Ã© apresentado em nÃ­vel de categoria de bugs,
-                    e nÃ£o bugs especÃ­ficos
+                    \item Não estende Lint nem Findbug
+                    \item Parte da analise é manual
+                    \item O mapeamento é apresentado em nível de categoria de bugs,
+                    e não bugs específicos
                 \end{itemize}
         \end{itemize}
     }
     \frame
     {
-        \frametitle{LimitaÃ§Ãµes de Trabalhos Atuais}
+        \frametitle{Trabalhos relacionados}
         \begin{itemize}
-            \item Em [Khalid et al., 2015] sÃ£o analisadas 10.000 mil aplicaÃ§Ãµes
+            \item Em [Khalid et al., 2015] são analisadas 10.000 mil aplicações
             Android gratuitas para download, comparando os resultados encontradas 
-            com as crÃ­ticas feitos pelos usuÃ¡rios
+            com as críticas feitos pelos usuários
             \begin{itemize}
-                \item Utiliza Findbugs, limita-se a usar as validaÃ§Ãµes jÃ¡ pre-definidas
+                \item Utiliza Findbugs, limita-se a usar as validações já pre-definidas
                 e analise apenas byte-code
             \end{itemize}
-            \item Android Lint Ã© utilizado em [Bugliesi et al., 2013], que propÃµe um framework
-            para checagem de tipos em aplicaÃ§Ãµes Android, com fins de melhorar a
-            seguranÃ§a das aplicaÃ§Ãµes.
-            \item Wala\footnote{DisponÃ­vel em http://wala.sourceforge.net/} tambÃ©m
-            Ã© utilizado para analise sintÃ¡tica de aplicaÃ§Ãµes, no entanto, seu suporte
-            para anÃ¡lise de cÃ³digo-fonte dos projetos Android Ã© deficitÃ¡rio.
+            \item Android Lint é utilizado em [Bugliesi et al., 2013], que propõe um framework
+            para checagem de tipos em aplicações Android, com fins de melhorar a
+            segurança das aplicações.
+            \item Wala\footnote{Disponível em http://wala.sourceforge.net/} também
+            é utilizado para analise sintática de aplicações, no entanto, seu suporte
+            para análise de código-fonte dos projetos Android é deficitário.
         \end{itemize}
     }
     \frame
     {   
-        \frametitle{LimitaÃ§Ãµes de Trabalhos Atuais}
+        \frametitle{Trabalhos relacionados}
         \begin{itemize}
-            \item Em [Saglam, 2014], Android Lint Ã© utilizado na busca por mÃ¡s prÃ¡ticas
-            de desenvolvimento, que poderÃ£o causar problemas como vazamento e falta
-            de memÃ³ria e travamento de aplicaÃ§Ã£o.
+            \item Em [Saglam, 2014], Android Lint é utilizado na busca por más práticas
+            de desenvolvimento, que poderão causar problemas como vazamento e falta
+            de memória e travamento de aplicação.
             \begin{itemize}
-                \item Valida a abordagem em 100 aplicaÃ§Ãµes open-source, obtidas
+                \item Valida a abordagem em 100 aplicações open-source, obtidas
                 no F-Droid\footnote{https://f-droid.org/}.
-                \item Relaciona os resultados obtidos com a avaliaÃ§Ã£o feitas pelos
-                usuÃ¡rios da applicaÃ§Ã£o na Google Play
-                \item Limitado os aspectos citados, nÃ£o explora usa de padrÃµes de
-                construÃ§Ã£o
+                \item Relaciona os resultados obtidos com a avaliação feitas pelos
+                usuários da applicação na Google Play
+                \item Limitado os aspectos citados, não explora usa de padrões de
+                construção
             \end{itemize}
         \end{itemize}
     }
-    
-    \subsection{QuestÃµes de pesquisa}
     \frame
     {
-        \frametitle{QuestÃµes de pesquisa}
+        \frametitle{Limitações de trabalhos atuais}
+        \begin{itemize}
+            \item A maioria foca em categorias de bugs invés de bugs especificos
+            \item Não focam nos padrões de desenvolvimentos definidos para a plafatorma
+        \end{itemize}
+    }
+    \subsection{Questões de pesquisa}
+    \frame
+    {
+        \frametitle{Questões de pesquisa}
         \begin{itemize}
             \item RQ1: Android Lint pode ser utilizado para guiar os desenvolvedores
-                na aplicaÃ§Ã£o de padrÃµes de desenvolvimento?
-            \item RQ2: Os desenvolvedores tem aplicados os padrÃµes definidos na
-                documentaÃ§Ã£o oficial?
+                na aplicação de padrões de desenvolvimento?
+            \item RQ2: Os desenvolvedores tem aplicados os padrões definidos na
+                documentação oficial?
                 \begin{itemize}
-                    \item RQ2.a: Existem diferenÃ§as entre diferentes categorias
-                    de aplicaÃ§Ãµes (jogos, educaÃ§Ã£o, negÃ³cios etc)?
+                    \item RQ2.a: Existem diferenças entre diferentes categorias
+                    de aplicações (jogos, educação, negócios etc)?
                 \end{itemize}
             \item RQ3: Existem checks predefinidas pelo Android Lint que podem ser
                 utilizados para tal fim ? Quais?
@@ -200,7 +256,7 @@
     {
         \frametitle{Trabalho proposto}
         \begin{itemize}
-            \item ImplementaÃ§Ã£o de novos checks para Android Lint
+            \item Implementação de novos checks para Android Lint
             \begin{itemize}
             \item Uso de Fragments
                 \begin{itemize}
@@ -213,7 +269,7 @@
                     \item A activity deve usar o tema Theme.AppCompat.Light
                 \end{itemize}
             \end{itemize}
-            \item{ValidaÃ§Ã£o da abordagem atravÃ©s da execuÃ§Ã£o de projetos de cÃ³digo aberto}
+            \item{Validação da abordagem através da execução de projetos de código aberto}
         \end{itemize}
     }
     
@@ -223,13 +279,13 @@
     {
         \frametitle{Fundamentos do Android Lint}
         \begin{itemize}
-            \item Android Lint Ã© uma ferramenta de anÃ¡lise de cÃ³digo estÃ¡tica que
+            \item Android Lint é uma ferramenta de análise de código estática que
             verifica os arquivos fontes de um projeto Android em busca de potenciais
-            bugs e melhorias de otimizaÃ§Ã£o para corretude, segurana, performance,
-            usabilidade, acessibilidade e internacionalizaÃ§Ã£o
+            bugs e melhorias de otimização para corretude, segurana, performance,
+            usabilidade, acessibilidade e internacionalização
             \item Pode ser executado integrado com alguma IDE ou na linha de comando
-            \item RelatÃ³rios em formato HTML e XML
-            \item Contem XX checks na versÃ£o YY do Android
+            \item Relatórios em formato HTML e XML
+            \item Contem XX checks na versão YY do Android
             \item Permite a escrita de novos checks
         \end{itemize}     
    }
@@ -248,15 +304,15 @@
    {
         \frametitle{Arquitetura}
         \begin{itemize}
-            \item Detector Ã© uma classe que extende a classe abstrata {\it Detector}
+            \item Detector é uma classe que extende a classe abstrata {\it Detector}
             para procurar por um problema. Um detector pode implementar uma ou mais
-            dessas trÃªs interfaces: {\it Detector.XmlScanner, Detector.JavaScanner e
+            dessas três interfaces: {\it Detector.XmlScanner, Detector.JavaScanner e
             Detector.ClassScanner}
-            \item Issues Ã© uma classe de dados com informaÃ§Ãµes, como descriÃ§Ã£o,
-            explicaÃ§Ã£o, categoria e prioridade, sobre o problema procurado por um
+            \item Issues é uma classe de dados com informações, como descrição,
+            explicação, categoria e prioridade, sobre o problema procurado por um
             Detector. Scopes define em qual tipo de arquivo de arquivo o problema
-            pode surgir. O scope de um issue pode ser arquivos de recursos, cÃ³digo
-            fonte Java, arquivos de classes, arquivos de configuraÃ§Ã£o Proguard e
+            pode surgir. O scope de um issue pode ser arquivos de recursos, código
+            fonte Java, arquivos de classes, arquivos de configuração Proguard e
             arquivos manifesto.
          \end{itemize}
    }
@@ -264,27 +320,27 @@
    {
         \frametitle{Arquitetura}
         \begin{itemize}       
-            \item Visitors sÃ£o classes providas pelo framework que realizam o parser
-            nos arquivos e obtem informaÃ§Ãµes deles. O nÃ­vel mais alto de um visitor
-            Ã© a interface AstVisitor que define mÃ©todos para percorrer cada nÃ³ da 
-            arvore sintÃ¡tica abstrata (AST).
-            \item Reporting: quando o detector encontra um problema, ele chama o mÃ©todo
-            {\it report} do objeto de contexto, que Ã© um objeto de uma subclasse de
+            \item Visitors são classes providas pelo framework que realizam o parser
+            nos arquivos e obtem informações deles. O nível mais alto de um visitor
+            é a interface AstVisitor que define métodos para percorrer cada nó da 
+            arvore sintática abstrata (AST).
+            \item Reporting: quando o detector encontra um problema, ele chama o método
+            {\it report} do objeto de contexto, que é um objeto de uma subclasse de
             {\it Context}, que pode ser {\it JavaContext, ClassContext e XmlContext}.
-            {\it Issue registry: responsÃ¡vel por registrar os novos checks no Lint}
+            {\it Issue registry: responsável por registrar os novos checks no Lint}
         \end{itemize}
    }
    \frame
    {
         \frametitle{Arquitetura}
         Alguns issues possuem mais de um escopo. Por exemplo, deveria ser analisado
-        o arquivo manifesto e o cÃ³digo-fonte Java para encontrar um erro. No entanto,
-        a ordem de anÃ¡lise Ã© predefinida, obrigando em alguns casos percorrer os
-        arquivos mais de um vez. A ordem definida pelo Lint Ã©:
+        o arquivo manifesto e o código-fonte Java para encontrar um erro. No entanto,
+        a ordem de análise é predefinida, obrigando em alguns casos percorrer os
+        arquivos mais de um vez. A ordem definida pelo Lint é:
         \begin{itemize}       
             \item Arquivo manifesto
             \item Arquivos de recursos
-            \item CÃ³digo fonte Java (.java)
+            \item Código fonte Java (.java)
             \item Arquivos de classes Java (.class)
             \item Arquivos do Proguard
         \end{itemize}
@@ -293,14 +349,14 @@
    \frame
    {
         \frametitle{Exemplificando}
-        Um detector pode tratar de vÃ¡rios Issue. A seguir veremos um exemplo de
+        Um detector pode tratar de vários Issue. A seguir veremos um exemplo de
         um detector focando no issue que verifica se as activities herdam de FragmentActivity.
-        SerÃ£o apresentados os seguintes elementos:
+        Serão apresentados os seguintes elementos:
         \begin{itemize}
             \item PatternDetector: classe detector
             \item CHECKFRAGMENTACTIVITY: issue que descreve o problema a ser procurado
             \item PerformanceVisitor: visitor que faz a analise da AST
-            \item context.report: chamada ao mÃ©todo report do objeto de context
+            \item context.report: chamada ao método report do objeto de context
             \item PatternsIssueRegistry: registra novos issue no Lint
         \end{itemize}
         
@@ -332,7 +388,7 @@
    
    \frame
    {
-    \frametitle{Arquivo MANIFEST.MF (bÃ´nus)}
+    \frametitle{Arquivo MANIFEST.MF (bônus)}
     \lstinputlisting{../src/META-INF/MANIFEST.MF}
    }
    
@@ -367,24 +423,24 @@
             \item 4 novos checks foram implementados
             \begin{itemize}
                 \item 1 deles (checar uso do tema Theme.AppCompat.Light) precisa
-                ser refeito para suportar heranÃ§as indiretas
+                ser refeito para suportar heranças indiretas
             \end{itemize}
-            \item{Testados em 3 aplicaÃ§Ãµes: MMUnB, AntennaPod e Google IO Schedule}
+            \item{Testados em 3 aplicações: MMUnB, AntennaPod e Google IO Schedule}
                 \begin{itemize}
-                    \item Apenas no Google IO ocorreu um falso negativo na verificaÃ§Ã£o
-                    de heranÃ§as devido, provavelmente, estrutura do projeto ou class-loader.
+                    \item Apenas no Google IO ocorreu um falso negativo na verificação
+                    de heranças devido, provavelmente, estrutura do projeto ou class-loader.
                 \end{itemize}
         \end{itemize}
     }
 
 \section{Trabalhos Futuros}
-    \subsection{ConclusÃµes e Trabalhos Futuros}
+    \subsection{Conclusões e Trabalhos Futuros}
     \frame
     {
-        \frametitle{ConclusÃµes e Trabalhos Futuros}
+        \frametitle{Conclusões e Trabalhos Futuros}
         \begin{itemize}
-            \item Finalizar a implementaÃ§Ã£o do check com problema
-            \item Executar em larga escala em centenas de aplicaÃ§Ãµes
+            \item Finalizar a implementação do check com problema
+            \item Executar em larga escala em centenas de aplicações
             \item Colher resultados quantitativos e qualitativos
         \end{itemize}
     }
