@@ -226,10 +226,48 @@
     }
     \frame
     {
+        \frametitle{Trabalhos relacionadas}
+        \begin{itemize}
+            \item Em [Liu, 2014] é feito um estudo empírico com analise estática
+            para caracterizar e detectar bugs de performance em aplicações Android
+            \item Contribuição: identifica os tipos mais comuns de bugs relacionados
+            a performance em aplicações Android, como eles se manifestam, qual o 
+            esforço para depurar e corrigir e suas causas.
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionadas}
+        \begin{itemize}
+            \item Pontos positivos:
+                \begin{itemize}
+                    \item Aponta uso do "view holder pattern" como solução para um
+                    dos bugs encontrados. (NOTA: O uso desse padrão está previsto
+                    na documentação oficial do Android e existe um check default
+                    no Lint para verificar onde isso poderia ser utilizado)
+                    \item Analisa, de forma manual, 70 bugs em 8 app populares de
+                    5 categorias diferentes
+                    \item Disponibiliza ferramenta, que foi validada em 29 aplicações
+                    \item Os critérios de seleção das apps e bugs analisados estão bem
+                    claros
+                    \item As questões de pesquisa estão claras
+                \end{itemize}
+            \item Pontos negativos:
+                \begin{itemize}
+                    \item Restritos a bugs de performance
+                    \item Não usa Android Lint
+                \end{itemize}
+        \end{itemize}
+    }
+    
+    \frame
+    {
         \frametitle{Limitações de trabalhos atuais}
         \begin{itemize}
             \item A maioria foca em categorias de bugs invés de bugs especificos
             \item Não focam nos padrões de desenvolvimentos definidos para a plafatorma
+            \item Poucos exploram uso do Android Lint
+            \item A maioria faz a analise a partir das versões compiladas e não do código-fonte
         \end{itemize}
     }
     \subsection{Questões de pesquisa}
