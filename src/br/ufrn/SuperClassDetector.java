@@ -19,7 +19,7 @@ import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
 
-public class PatternsDetector extends Detector implements JavaScanner {
+public class SuperClassDetector extends Detector implements JavaScanner {
 	
 	private static final String CLASS_V7_ACTIONBARACTIVITY = "android.support.v7.app.ActionBarActivity";
 	private static final String CLASS_V4_FRAGMENTACTIVITY = "android.support.v4.app.FragmentActivity";
@@ -31,7 +31,7 @@ public class PatternsDetector extends Detector implements JavaScanner {
             		+ CLASS_V4_FRAGMENTACTIVITY + " class",
             Category.CORRECTNESS, 6, Severity.WARNING,
             new Implementation(
-            		PatternsDetector.class,
+            		SuperClassDetector.class,
             		EnumSet.of(Scope.ALL_JAVA_FILES))
             );
 
@@ -42,7 +42,7 @@ public class PatternsDetector extends Detector implements JavaScanner {
             		+ CLASS_V7_ACTIONBARACTIVITY + " class",
             Category.CORRECTNESS, 8, Severity.WARNING,
             new Implementation(
-            		PatternsDetector.class,
+            		SuperClassDetector.class,
             		EnumSet.of(Scope.ALL_JAVA_FILES))
             );
 	
