@@ -259,6 +259,59 @@
                 \end{itemize}
         \end{itemize}
     }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Mojica, 2012] é feita uma analise da adoção de reuso de código
+            em aplicações Android
+            \item Contribuição: apresentar as classes mais utilizadas nas 
+            aplicações. Assim, os desenvolvedores destas terão um melhor
+            direcionamento onde investir esforços para melhorias. Além de respostas
+            às seguintes questões:
+                \begin{itemize}
+                    \item RQ1: Qual fração do reuso de código de classe por herança?
+                        \begin{itemize}
+                            \item 27\% das classes herdam de uma classe específica de
+                            domínio
+                            \item 23\% das classes herdam de classes específicas do
+                            Android                           
+                        \end{itemize} 
+                    \item RQ2: Quão frequente aplicações reusam classes de outras 
+                          aplicações?
+                        \begin{itemize}
+                            \item Na média, 61\% das classes em cada categoria ocorrem
+                            em duas ou mais aplicações. Sendo as mais comuns classes
+                            Ads providas pelo Google.
+                            \item 217 aplicações contem o mesmo conjunto de classes
+                            que outra da mesma categoria
+                        \end{itemize}
+                \end{itemize} 
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Pontos positivos:
+                \begin{itemize}
+                    \item Artigo bem escrito
+                    \item Apresenta o design do estudo
+                    \item Usa Software Bertillonage[Davies, 2011] para identificar a origem
+                    das classes
+                    \item Aponta Activity como classe mais utilizada. (NOTA: estudo
+                    feito antes da liberação da API de fragmentos. Talvez isso esteja
+                    mudado atualmente)
+                \end{itemize}
+            \item Pontos negativos:
+                \begin{itemize}
+                    \item Analise a partir do bytecode
+                    \item Analisa apenas 5 categorias de applicações
+                    \item Aplicações simples e similares por natureza
+                    \item Não usa Android Lint
+                \end{itemize}
+        \end{itemize}
+    }
     
     \frame
     {
@@ -503,17 +556,29 @@
         [Bajwa, 2015] Bajwa, G. and Fazeen, M. and Dantu, R. and Tanpure, S. (2015).
         Unintentional bugs to vulnerability mapping in Android applications. Intelligence
         and Security Informatics (ISI), 2015 IEEE International Conference on, pages 176-178. 
-        
+   } 
+   \frame
+   {    
         [Gjoshevski, 2015] Gjoshevski, M.  and Schweighofer, T. (2015) Small Scale
         Analysis of Source Code Quality with regard to Native Android Mobile Applications.
         Proceedings of the 4th Workshop on Software Quality Analysis, Monitoring,
-       Improvement, and Applications {(SQAMIA} 2015), Maribor, Slovenia, June 8-10,
-       2015, on pages 9-16.
+        Improvement, and Applications {(SQAMIA} 2015), Maribor, Slovenia, June 8-10,
+        2015, on pages 9-16.
        
-       [Liu, 2014] Liu, Y. and Xu, C. and Cheung, S. (2014) Characterizing and Detecting
-       Performance Bugs for Smartphone Applications. Proceedings of the 36th International
-       Conference on Software Engineering. ICSE 2014. Hyderabad, India, 2014, on pages
-       1013-1024.
+        [Liu, 2014] Liu, Y. and Xu, C. and Cheung, S. (2014) Characterizing and Detecting
+        Performance Bugs for Smartphone Applications. Proceedings of the 36th International
+        Conference on Software Engineering. ICSE 2014. Hyderabad, India, 2014, on pages
+        1013-1024.
+       
+        [Mojica, 2012] Mojica, I. and Nagappan, M. and Adams, B. and Hassan, A. (2012)
+        Understanding Reuse in the Android Market. Program Comprehension (ICPC), 2012
+        IEEE 20th Internationl Conference, on pages 113-122.
+   }
+   \frame
+   {
+        [Davies, 2011] Davies, J. and German, D. M. and Godfrey, M. W. and Hindle,
+        A. (2011) Software Bertillonage: Finding the Provenance of an Entity.
+        Proceedings Software of the 8th Working Conference on Mining Software
+        Repositories. MSR 11. Waikiki, Honolulu, HI, USA, 2011, on pages 182-192.
     }
-
 \end{document}
