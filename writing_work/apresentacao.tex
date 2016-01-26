@@ -17,6 +17,7 @@
 \usepackage{ae}
 \usepackage{alltt}
 \usepackage{pslatex}
+\usepackage{hyperref}
 
 \usepackage{xcolor}
 % Definindo novas cores
@@ -334,7 +335,48 @@
             \end{itemize}
         \end{itemize}
     }
-    
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Berger, 2014] é realizado um estudo sobre mecanismos de
+            variabilidades em cinco ecosistemas: Android, o kernel Linux, Debian,
+            Eclipse e o sistema operacional eCos. Suas contribuições foram:
+            \begin{itemize}
+                \item Um framework conceitual definindo características chaves dos
+                mecanismos de variabilidades e seus contextos organizacionais através
+                dos ecosistemas
+                \item Uma instanciação do framework com dados empiricos para cada
+                ecosistema;
+                \item um conjunto de diferenças centrais entre os ecosistemas, e
+                hipoteses;
+                \item ferramentas para analise estática e conjuntos de dados extraídos
+                para reprodução e trabalhos futuros
+            \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Algumas considerações gerais:
+            \begin{itemize}
+                \item O artigo é denso, complexo. Foi feito um trabalho
+                pesado pelos autores de comparação dos cinco ecosistemas avaliados.
+                \item Apenas pelo artigo, não ficou claro como a analise
+                estática foi útil para a definição do framework e dos
+                mecanimos de variabilidade
+                \item Para entender isso e outros aspectos, é necesssário
+                consultar o material complementar disponibilizado
+                \item 
+                \href{https://bitbucket.org/tberger/ecosystem\_mining/raw/8c2c77eec5c91fdcd64dacbe1bccede82a01554f/qualitative\%20data/doc\_cases.pdf}
+                {Um dos arquivos complementares ao artigo} cita que o Google
+                Play não tem nenhuma garantia de qualidade das aplicações.
+                [NOTA: nosso trabalho pode contribuir nesse sentido]
+            \end{itemize}
+        \end{itemize}
+    }    
+        
     \frame
     {
         \frametitle{Limitações de trabalhos atuais}
@@ -606,6 +648,10 @@
         [Mojica, 2014] Mojica, I. and Adams, B. and Nagappan, M. and Dienst, S. and
         Berger, T. and Hassan, A. (2014) A Large-Scale Empirical Study on Software
         Reuse in Mobile Apps. IEEE Software, vol. 31, no. 2, pp. 78-86, Mar.-Apr., 2014
- 
+        
+        [Berger, 2014] Berger, T. and Pfeiffer, R. and Tartler, R. and Dienst, 
+        S. and Czarnecki, K. and Wasowski, A. and She, S. (2014) Variability
+        mechanisms in software ecosystems. Information and Software 
+        Technology, vol. 56, pp. 1520-1535, 2014
     }
 \end{document}
