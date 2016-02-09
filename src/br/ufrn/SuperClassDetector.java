@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import lombok.ast.ClassDeclaration;
+import lombok.ast.Node;
 
 import com.android.SdkConstants;
 import com.android.tools.lint.client.api.JavaParser.ResolvedClass;
@@ -51,10 +52,11 @@ public class SuperClassDetector extends Detector implements JavaScanner {
 		return Collections.singletonList(SdkConstants.CLASS_ACTIVITY);
 	}
 	
+	
+	
 	@Override
-	public void checkClass(JavaContext context, ClassDeclaration node,
-			ResolvedClass resolvedClass) {
-		
+	public void checkClass(JavaContext context, ClassDeclaration declaration, Node node, ResolvedClass resolvedClass) {
+		// TODO Auto-generated method stub
 		boolean isFragmentActivity = resolvedClass.isSubclassOf(CLASS_V4_FRAGMENTACTIVITY, false);
 		if (!isFragmentActivity){
 			ResolvedNode rNode = context.resolve(node);
@@ -70,7 +72,8 @@ public class SuperClassDetector extends Detector implements JavaScanner {
 			String message = rNode.getName() + " class should extends " + CLASS_V7_ACTIONBARACTIVITY;
 			context.report(ACTIONBAR_ACTIVITY, node, location, message);
 		}
-		super.checkClass(context, node, resolvedClass);
+
+		super.checkClass(context, declaration, node, resolvedClass);
 	}
 }
 

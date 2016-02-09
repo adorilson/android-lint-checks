@@ -1,0 +1,657 @@
+% ------------------------------------------------------------------------------
+% Apresentação: Uso de Android Lint para verificação de aderências a guidelines
+% Autores:
+%     Adorilson Bezerra <adorilson@ppgsc.ufrn.br>
+% Licença Creative Commons Atribuição 3.0. 
+% Você pode usar e alterar este documento, 
+% mas deve obrigatoriamente citar a autoria. 
+% ------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+% ------------------------------------------------------------------------------
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{beamerthemesplit}
+\usepackage{ae}
+\usepackage{alltt}
+\usepackage{pslatex}
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+% Definindo novas cores
+\definecolor{verde}{rgb}{0.25,0.5,0.35}
+\definecolor{jpurple}{rgb}{0.5,0,0.35}
+
+% Configurando layout para mostrar codigos Java
+\usepackage{listings}
+\lstset{
+  language=Java,
+  basicstyle=\tiny,
+  keywordstyle=\color{jpurple}\bfseries,
+  stringstyle=\color{red},
+  commentstyle=\color{verde},
+  morecomment=[s][\color{blue}]{/**}{*/},
+  extendedchars=true,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny,
+  breaklines=true,
+  backgroundcolor=\color{cyan!10},
+  breakautoindent=true,
+  captionpos=b,
+  xleftmargin=0pt,
+  tabsize=4,
+  fontadjust=true,
+  basewidth={0.6em,0.45em}
+}
+
+% ------------------------------------------------------------------------------
+
+\usecolortheme{beaver}
+
+% ------------------------------------------------------------------------------
+\title[Uso de Android Lint para verificação de aderências a guidelines]
+{
+    Uso de Android Lint para verificação de aderências a guidelines
+}
+\subtitle{}
+\author[Adorilson Bezerra]
+{
+    Adorilson Bezerra
+}
+\institute{Universidade Federal do Rio Grande do Norte\\
+            Departamento de Informática e Matemática Aplicada}
+\date{\today}
+%\logo{\includegraphics[scale=0.2]{img/android}}
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+\frame{\titlepage}
+% ------------------------------------------------------------------------------
+
+\section{Introdução}
+    \subsection{Motivação}
+    \frame
+    {
+        \frametitle{Motivação}
+        \begin{itemize}
+            \item Grande variabilidades de dispositivos suportados pela plataforma
+            Android
+            \begin{itemize}
+                \item Tamanho e qualidade de tela, existência ou não de recursos
+                como telefone GSM, bluetooth, EDGE, 3G, WiFi, câmera, GPS, bússola, e
+                acelerômetro entre outros.
+            \end{itemize}
+            \item Guideline oficial para tratar essas variabilidades
+            \begin{itemize}
+                \item Supporting Tablets and Handsets
+            \end{itemize}
+        \end{itemize}
+    }
+    \subsection{Problema}
+    \frame
+    {
+        \frametitle{Problema}
+        \begin{itemize}
+            \item Verificação e aderência a esses padrões é feito de forma manual,
+            pelos próprios desenvolvedores
+            \item Esses padrões podem ser desconhecidos por eles
+            \item Análise estática pode ser utilizada para suprir esse necessidade
+        \end{itemize}
+    }
+    \subsection{Trabalhos relacionados}
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+          \item Em [Gjoshevski, 2015] é realizado um análise da qualidade do código
+          de aplicações Android
+          \item Contribuição: respostas às seguintes questões
+          \begin{itemize}
+            \item RQ1: Há grandes variações entre as diversas qualidades do código
+            fonte de aplicações móveis?
+                \begin{itemize}
+                  \item R: Não foram encontradas grandes variações. Os autores acreditam
+                  que pelo fato do uso de ferramentas como Android Lint integradas as IDEs
+                \end{itemize}
+            \item A quantidade de linhas de código tem uma influência direta no débito
+            técnico de aplições móveis?
+                \begin{itemize}
+                  \item R:  Não foi encontrada relaçao entre a quantidade de linhas e o
+                  débito técnico nas aplicações
+                \end{itemize}
+            \item Quais são os probleas mais comuns encontrados nas aplicações análisadas?
+                \begin{itemize}
+                  \item R: modificadores de visibilidade, outros, linhas de código comentadas,
+                  números mágicos, métodos privados nao-utilizados...
+                \end{itemize}
+          \end{itemize}
+        \end{itemize}
+    }\frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+        \item Pontos positivos:
+                \begin{itemize}
+                    \item Apresenta detalhes de como o estudo foi feito
+                    \item Usa Android Lint + plataforma SonarQube e o método SQALE
+                    \item Usa ISO/IEC 9126 como modelo de qualidade
+                    \item Deixa claros quais são das RQs e duas respostas
+                    \item 140 (Lint) + 197 (Sonar Way) = 237 regras
+                    \item Resultados por categorias e bugs especificos
+                \end{itemize}
+            \item Pontos negativos    
+                \begin{itemize}
+                    \item Não estende Lint
+                    \item Analise "apenas" 30 aplicações
+                    \item Seleção completamente aleatória, sem nenhum critério de filtro
+                    \item Além das regras já definidas no Lint, não trata explicitamente
+                    dos padrões definidos para a plataforma Android
+                \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Bajwa, 2015] FindBugs e Android Lint são utilizados para mapear
+            bugs não-intencionais e vulnerabilidades em aplicações Android a partir
+            da analise do código-fonte destas.
+            \item Contribuição: uso de analise estática para mapear bugs e vulnerabilidades
+            \item continua no slide seguinte...
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+        \item Pontos positivos:
+                \begin{itemize}
+                    \item Mapeamento entre bugs e vulnerabilidades, daí a importância
+                    evitá-los
+                    \item Analise do código-fonte
+                    \item Uso de Findbugs e Android Lint
+                \end{itemize}
+            \item Pontos negativos    
+                \begin{itemize}
+                    \item Não deixa claro como obteve os projetos do Github (manual ou automático?)
+                    \item Não disponibiliza ferramenta e nem detalhes de uso do Findbugs e Lint
+                    \item Mostra apenas parte do resultado
+                    \item Não estende Lint nem Findbug
+                    \item Parte da analise é manual
+                    \item O mapeamento é apresentado em nível de categoria de bugs,
+                    e não bugs específicos
+                \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Khalid et al., 2015] são analisadas 10.000 mil aplicações
+            Android gratuitas para download, comparando os resultados encontradas 
+            com as críticas feitos pelos usuários
+            \begin{itemize}
+                \item Utiliza Findbugs, limita-se a usar as validações já pre-definidas
+                e analise apenas byte-code
+            \end{itemize}
+            \item Android Lint é utilizado em [Bugliesi et al., 2013], que propõe um framework
+            para checagem de tipos em aplicações Android, com fins de melhorar a
+            segurança das aplicações.
+            \item Wala\footnote{Disponível em http://wala.sourceforge.net/} também
+            é utilizado para analise sintática de aplicações, no entanto, seu suporte
+            para análise de código-fonte dos projetos Android é deficitário.
+        \end{itemize}
+    }
+    \frame
+    {   
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Saglam, 2014], Android Lint é utilizado na busca por más práticas
+            de desenvolvimento, que poderão causar problemas como vazamento e falta
+            de memória e travamento de aplicação.
+            \begin{itemize}
+                \item Valida a abordagem em 100 aplicações open-source, obtidas
+                no F-Droid\footnote{https://f-droid.org/}.
+                \item Relaciona os resultados obtidos com a avaliação feitas pelos
+                usuários da applicação na Google Play
+                \item Limitado os aspectos citados, não explora usa de padrões de
+                construção
+            \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionadas}
+        \begin{itemize}
+            \item Em [Liu, 2014] é feito um estudo empírico com analise estática
+            para caracterizar e detectar bugs de performance em aplicações Android
+            \item Contribuição: identifica os tipos mais comuns de bugs relacionados
+            a performance em aplicações Android, como eles se manifestam, qual o 
+            esforço para depurar e corrigir e suas causas.
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionadas}
+        \begin{itemize}
+            \item Pontos positivos:
+                \begin{itemize}
+                    \item Aponta uso do "view holder pattern" como solução para um
+                    dos bugs encontrados. (NOTA: O uso desse padrão está previsto
+                    na documentação oficial do Android e existe um check default
+                    no Lint para verificar onde isso poderia ser utilizado)
+                    \item Analisa, de forma manual, 70 bugs em 8 app populares de
+                    5 categorias diferentes
+                    \item Disponibiliza ferramenta, que foi validada em 29 aplicações
+                    \item Os critérios de seleção das apps e bugs analisados estão bem
+                    claros
+                    \item As questões de pesquisa estão claras
+                \end{itemize}
+            \item Pontos negativos:
+                \begin{itemize}
+                    \item Restritos a bugs de performance
+                    \item Não usa Android Lint
+                \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Mojica, 2012] é feita uma analise da adoção de reuso de código
+            em aplicações Android
+            \item Contribuição: apresentar as classes mais utilizadas nas 
+            aplicações. Assim, os desenvolvedores destas terão um melhor
+            direcionamento onde investir esforços para melhorias. Além de respostas
+            às seguintes questões:
+                \begin{itemize}
+                    \item RQ1: Qual fração do reuso de código de classe por herança?
+                        \begin{itemize}
+                            \item 27\% das classes herdam de uma classe específica de
+                            domínio
+                            \item 23\% das classes herdam de classes específicas do
+                            Android                           
+                        \end{itemize} 
+                    \item RQ2: Quão frequente aplicações reusam classes de outras 
+                          aplicações?
+                        \begin{itemize}
+                            \item Na média, 61\% das classes em cada categoria ocorrem
+                            em duas ou mais aplicações. Sendo as mais comuns classes
+                            Ads providas pelo Google.
+                            \item 217 aplicações contem o mesmo conjunto de classes
+                            que outra da mesma categoria
+                        \end{itemize}
+                \end{itemize} 
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Pontos positivos:
+                \begin{itemize}
+                    \item Artigo bem escrito
+                    \item Apresenta o design do estudo
+                    \item Usa Software Bertillonage[Davies, 2011] para identificar a origem
+                    das classes
+                    \item Aponta Activity como classe mais utilizada. (NOTA: estudo
+                    feito antes da liberação da API de fragmentos. Talvez isso esteja
+                    mudado atualmente)
+                \end{itemize}
+            \item Pontos negativos:
+                \begin{itemize}
+                    \item Analise a partir do bytecode
+                    \item Analisa apenas 5 categorias de applicações
+                    \item Aplicações simples e similares por natureza
+                    \item Não usa Android Lint
+                \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Mojica, 2014] o trabalho de [Mojica, 2012] é expandido para
+            mais de 200 mil aplicações em 30 categorias do Google Play.
+            \begin{itemize}
+                \item Alguns resultados são significativamente diferentes, como
+                \begin{itemize}
+                    \item 18,75\% das classes herdam de classe da API do Android,
+                    contra 23\% anteriormente
+                    \item 35,78\% das classes herdam de classe específica do domínio,
+                    contra 27\% anteriormente
+                    \item 84,23\% das classes aparecem em duas ou mais aplicações,
+                    considerando todas as categorias, contra 61\% anteriormente e
+                    considerando apenas aplicações da mesma categoria
+                    \item Também foram percebidas diferenças no ``Top 10'' classes
+                    mais herdadas, tanto em ordem quanto em valores de porcentagem.
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Em [Berger, 2014] é realizado um estudo sobre mecanismos de
+            variabilidades em cinco ecosistemas: Android, o kernel Linux, Debian,
+            Eclipse e o sistema operacional eCos. Suas contribuições foram:
+            \begin{itemize}
+                \item Um framework conceitual definindo características chaves dos
+                mecanismos de variabilidades e seus contextos organizacionais através
+                dos ecosistemas
+                \item Uma instanciação do framework com dados empiricos para cada
+                ecosistema;
+                \item um conjunto de diferenças centrais entre os ecosistemas, e
+                hipoteses;
+                \item ferramentas para analise estática e conjuntos de dados extraídos
+                para reprodução e trabalhos futuros
+            \end{itemize}
+        \end{itemize}
+    }
+    \frame
+    {
+        \frametitle{Trabalhos relacionados}
+        \begin{itemize}
+            \item Algumas considerações gerais:
+            \begin{itemize}
+                \item O artigo é denso, complexo. Foi feito um trabalho
+                pesado pelos autores de comparação dos cinco ecosistemas avaliados.
+                \item Apenas pelo artigo, não ficou claro como a analise
+                estática foi útil para a definição do framework e dos
+                mecanimos de variabilidade
+                \item Para entender isso e outros aspectos, é necesssário
+                consultar o material complementar disponibilizado
+                \item 
+                \href{https://bitbucket.org/tberger/ecosystem\_mining/raw/8c2c77eec5c91fdcd64dacbe1bccede82a01554f/qualitative\%20data/doc\_cases.pdf}
+                {Um dos arquivos complementares ao artigo} cita que o Google
+                Play não tem nenhuma garantia de qualidade das aplicações.
+                [NOTA: nosso trabalho pode contribuir nesse sentido]
+            \end{itemize}
+        \end{itemize}
+    }    
+        
+    \frame
+    {
+        \frametitle{Limitações de trabalhos atuais}
+        \begin{itemize}
+            \item A maioria foca em categorias de bugs invés de bugs especificos
+            \item Não focam nos padrões de desenvolvimentos definidos para a plafatorma
+            \item Poucos exploram uso do Android Lint
+            \item A maioria faz a analise a partir das versões compiladas e não do código-fonte
+        \end{itemize}
+    }
+    \subsection{Questões de pesquisa}
+    \frame
+    {
+        \frametitle{Questões de pesquisa}
+        \begin{itemize}
+            \item RQ1: Android Lint pode ser utilizado para guiar os desenvolvedores
+                na aplicação de padrões de desenvolvimento?
+            \item RQ2: Os desenvolvedores tem aplicados os padrões definidos na
+                documentação oficial?
+                \begin{itemize}
+                    \item RQ2.a: Existem diferenças entre diferentes categorias
+                    de aplicações (jogos, educação, negócios etc)?
+                \end{itemize}
+            \item RQ3: Existem checks predefinidas pelo Android Lint que podem ser
+                utilizados para tal fim ? Quais?
+            \item RQ4: Novos checks podem ser desenvolvidos?
+        \end{itemize}
+    }
+    
+    \subsection{Trabalho proposto}
+    \frame
+    {
+        \frametitle{Trabalho proposto}
+        \begin{itemize}
+            \item Implementação de novos checks para Android Lint
+            \begin{itemize}
+            \item Uso de Fragments
+                \begin{itemize}
+                    \item As activities devem herdar direta ou indiretamente de FragmentActivity
+                    \item A activity deve de fato ser composta por fragmentos
+                \end{itemize}
+            \item Uso de ActionBar
+                \begin{itemize}
+                    \item As activities devem herdar direta ou indiretamente de ActionBarActivity
+                    \item A activity deve usar o tema Theme.AppCompat.Light
+                \end{itemize}
+            \end{itemize}
+            \item{Validação da abordagem através da execução de projetos de código aberto}
+        \end{itemize}
+    }
+    
+\section{Android Lint}
+    \subsection{Fundamentos do Android Lint}
+    \frame
+    {
+        \frametitle{Fundamentos do Android Lint}
+        \begin{itemize}
+            \item Android Lint é uma ferramenta de análise de código estática que
+            verifica os arquivos fontes de um projeto Android em busca de potenciais
+            bugs e melhorias de otimização para corretude, segurana, performance,
+            usabilidade, acessibilidade e internacionalização
+            \item Pode ser executado integrado com alguma IDE ou na linha de comando
+            \item Relatórios em formato HTML e XML
+            \item Contem XX checks na versão YY do Android
+            \item Permite a escrita de novos checks
+        \end{itemize}     
+   }
+   \subsection{Arquitetura}
+   \frame
+   {
+        \frametitle{Arquitetura}
+        \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{img/lint_architecture}
+            \caption{Arquitetura do Android Lint (Fonte:[Saglam, 2014])}
+            \label{Fonte:[Saglam, 2014]}
+        \end{figure}
+   }
+   \frame
+   {
+        \frametitle{Arquitetura}
+        \begin{itemize}
+            \item Detector é uma classe que extende a classe abstrata {\it Detector}
+            para procurar por um problema. Um detector pode implementar uma ou mais
+            dessas três interfaces: {\it Detector.XmlScanner, Detector.JavaScanner e
+            Detector.ClassScanner}
+            \item Issues é uma classe de dados com informações, como descrição,
+            explicação, categoria e prioridade, sobre o problema procurado por um
+            Detector. Scopes define em qual tipo de arquivo de arquivo o problema
+            pode surgir. O scope de um issue pode ser arquivos de recursos, código
+            fonte Java, arquivos de classes, arquivos de configuração Proguard e
+            arquivos manifesto.
+         \end{itemize}
+   }
+   \frame
+   {
+        \frametitle{Arquitetura}
+        \begin{itemize}       
+            \item Visitors são classes providas pelo framework que realizam o parser
+            nos arquivos e obtem informações deles. O nível mais alto de um visitor
+            é a interface AstVisitor que define métodos para percorrer cada nó da 
+            arvore sintática abstrata (AST).
+            \item Reporting: quando o detector encontra um problema, ele chama o método
+            {\it report} do objeto de contexto, que é um objeto de uma subclasse de
+            {\it Context}, que pode ser {\it JavaContext, ClassContext e XmlContext}.
+            {\it Issue registry: responsável por registrar os novos checks no Lint}
+        \end{itemize}
+   }
+   \frame
+   {
+        \frametitle{Arquitetura}
+        Alguns issues possuem mais de um escopo. Por exemplo, deveria ser analisado
+        o arquivo manifesto e o código-fonte Java para encontrar um erro. No entanto,
+        a ordem de análise é predefinida, obrigando em alguns casos percorrer os
+        arquivos mais de um vez. A ordem definida pelo Lint é:
+        \begin{itemize}       
+            \item Arquivo manifesto
+            \item Arquivos de recursos
+            \item Código fonte Java (.java)
+            \item Arquivos de classes Java (.class)
+            \item Arquivos do Proguard
+        \end{itemize}
+   }
+   \subsection{Exemplificando}
+   \frame
+   {
+        \frametitle{Exemplificando}
+        Um detector pode tratar de vários Issue. A seguir veremos um exemplo de
+        um detector focando no issue que verifica se as activities herdam de FragmentActivity.
+        Serão apresentados os seguintes elementos:
+        \begin{itemize}
+            \item PatternDetector: classe detector
+            \item CHECKFRAGMENTACTIVITY: issue que descreve o problema a ser procurado
+            \item PerformanceVisitor: visitor que faz a analise da AST
+            \item context.report: chamada ao método report do objeto de context
+            \item PatternsIssueRegistry: registra novos issue no Lint
+        \end{itemize}
+        
+   } 
+
+   \frame
+   {
+    \frametitle{Issue CHECKFRAGMENTACTIVITY}
+    \lstinputlisting{Issue.java}
+   }
+   
+   \frame[allowframebreaks]
+   {
+    \frametitle{Detector PatternsDetector}
+    \lstinputlisting{PatternsDetector.java}
+   }
+   
+   \frame[allowframebreaks]
+   {
+    \frametitle{Visitor PerformanceVisitor e reporting}
+    \lstinputlisting{PerformanceVisitor.java}
+   }
+   
+   \frame
+   {
+    \frametitle{Issue registry PatternsIssueRegistry}
+    \lstinputlisting{PatternsIssueRegistry.java}
+   }
+   
+   \frame
+   {
+    \frametitle{Arquivo MANIFEST.MF (bônus)}
+    \lstinputlisting{../src/META-INF/MANIFEST.MF}
+   }
+   
+   \frame
+   {
+    \frametitle{Diagrama de classes do detector (API)}
+    \begin{figure}
+            \centering
+            \includegraphics[width=6.5cm]{img/detector_class_diagram}
+            \caption{Diagrama de classes do detector (Fonte:[Saglam, 2014])}
+            \label{Fonte:[Saglam, 2014]}
+        \end{figure}
+   }
+   
+   \frame
+   {
+    \frametitle{Diagrama de classes do detector implementado}
+    \begin{figure}
+            \centering
+            \includegraphics[width=6.5cm]{img/PatternsDetector}
+            \caption{Diagrama de classes do detector PatternsDetector}
+        \end{figure}
+   }
+   
+    
+\section{Resultados parciais}
+    \subsection{Resultados parciais}
+    \frame
+    {
+        \frametitle{Resultados Parciais}
+        \begin{itemize}
+            \item 4 novos checks foram implementados
+            \begin{itemize}
+                \item 1 deles (checar uso do tema Theme.AppCompat.Light) precisa
+                ser refeito para suportar heranças indiretas
+            \end{itemize}
+            \item{Testados em 3 aplicações: MMUnB, AntennaPod e Google IO Schedule}
+                \begin{itemize}
+                    \item Apenas no Google IO ocorreu um falso negativo na verificação
+                    de heranças devido, provavelmente, estrutura do projeto ou class-loader.
+                \end{itemize}
+        \end{itemize}
+    }
+
+\section{Trabalhos Futuros}
+    \subsection{Conclusões e Trabalhos Futuros}
+    \frame
+    {
+        \frametitle{Conclusões e Trabalhos Futuros}
+        \begin{itemize}
+            \item Finalizar a implementação do check com problema
+            \item Executar em larga escala em centenas de aplicações
+            \item Colher resultados quantitativos e qualitativos
+        \end{itemize}
+    }
+
+\section{Bibliografia}
+    \subsection{Referencias}
+    \frame
+    {
+        [Bugliesi et al., 2013] Bugliesi, M., Calzavara, S., and Span`o, A. (2013).
+        Lintent: Towards security type-checking of android applications. In Beyer,
+        D. and Boreale, M., editors, Formal Techniques for Distributed Systems,
+        volume 7892 of Lecture Notes in Computer Science, pages 289-304. Springer
+        Berlin Heidelberg
+
+        [Khalid et al., 2015] Khalid, H., Nagappan, M., and Hassan, A. (2015).
+        Examining the relationship between findbugs warnings and end user ratings:
+        A case study on 10,00 android apps. Software, IEEE, PP(99:)1-1
+
+        [Saglam, 2015] Saglam, I. (2014). Measuring and assesment of well known
+        bad practices in Android application developments
+        
+        [Bajwa, 2015] Bajwa, G. and Fazeen, M. and Dantu, R. and Tanpure, S. (2015).
+        Unintentional bugs to vulnerability mapping in Android applications. Intelligence
+        and Security Informatics (ISI), 2015 IEEE International Conference on, pages 176-178. 
+   } 
+   \frame
+   {    
+        [Gjoshevski, 2015] Gjoshevski, M.  and Schweighofer, T. (2015) Small Scale
+        Analysis of Source Code Quality with regard to Native Android Mobile Applications.
+        Proceedings of the 4th Workshop on Software Quality Analysis, Monitoring,
+        Improvement, and Applications {(SQAMIA} 2015), Maribor, Slovenia, June 8-10,
+        2015, on pages 9-16.
+       
+        [Liu, 2014] Liu, Y. and Xu, C. and Cheung, S. (2014) Characterizing and Detecting
+        Performance Bugs for Smartphone Applications. Proceedings of the 36th International
+        Conference on Software Engineering. ICSE 2014. Hyderabad, India, 2014, on pages
+        1013-1024.
+       
+        [Mojica, 2012] Mojica, I. and Nagappan, M. and Adams, B. and Hassan, A. (2012)
+        Understanding Reuse in the Android Market. Program Comprehension (ICPC), 2012
+        IEEE 20th Internationl Conference, on pages 113-122.
+   }
+   \frame
+   {
+        [Davies, 2011] Davies, J. and German, D. M. and Godfrey, M. W. and Hindle,
+        A. (2011) Software Bertillonage: Finding the Provenance of an Entity.
+        Proceedings Software of the 8th Working Conference on Mining Software
+        Repositories. MSR 11. Waikiki, Honolulu, HI, USA, 2011, on pages 182-192.
+        
+        [Mojica, 2014] Mojica, I. and Adams, B. and Nagappan, M. and Dienst, S. and
+        Berger, T. and Hassan, A. (2014) A Large-Scale Empirical Study on Software
+        Reuse in Mobile Apps. IEEE Software, vol. 31, no. 2, pp. 78-86, Mar.-Apr., 2014
+        
+        [Berger, 2014] Berger, T. and Pfeiffer, R. and Tartler, R. and Dienst, 
+        S. and Czarnecki, K. and Wasowski, A. and She, S. (2014) Variability
+        mechanisms in software ecosystems. Information and Software 
+        Technology, vol. 56, pp. 1520-1535, 2014
+    }
+\end{document}

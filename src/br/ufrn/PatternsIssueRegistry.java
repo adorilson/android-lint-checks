@@ -13,7 +13,8 @@ public class PatternsIssueRegistry extends IssueRegistry {
 		return Arrays.asList(
 	            SuperClassDetector.FRAGMENT_ACTIVITY,
 	            SuperClassDetector.ACTIONBAR_ACTIVITY,
-	            UsesFragmentTransaction.ISSUE
+	            UsesFragmentTransaction.ISSUE,
+	            ThemeDetector.USESTHEMEAPPCOMPATLIGHT2
 	        );
 	}
 }

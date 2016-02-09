@@ -51,7 +51,7 @@ public class UsesFragmentTransaction extends Detector implements Detector.ClassS
 	 * Make sure you add the asm-debug or asm-util jars to the runtime classpath
 	 * as well since the opcode integer to string mapping display routine looks for
 	 * it via reflection. */
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 
 	/** Constructs a new {@link UsesFragmentTransaction} */
 	public UsesFragmentTransaction() {

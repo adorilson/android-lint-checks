@@ -69,6 +69,15 @@ this uses the @style/Theme.AppCompat.Light theme
 
 ## How to install and run the check?
 
+- Config the requeriments
+    - Clone the AndroidManifestParser's repository
+    
+    ```
+    git clone https://github.com/adorilson/AndroidManifestParser.git
+    ```
+    - Open the project in Eclipse
+    - Erase the class ManifestParser/src/main/java/com/donvigo/androidmanifestparser/MainActivity.java (yeap)
+
 - Clone this repository
 
 ```
@@ -78,10 +87,13 @@ git clone https://github.com/adorilson/android-lint-checks.git
 - Open the project in Eclipse (this is a Java Project, not Android Project)
 
 - Configure the project classpath to include lint-api.jar. Add a ADT_HOME variable
-in Properties > Java Build Path > Add Variable... setting to /sdk/tools/lib/lint-api.jar 
+in Properties > Java Build Path > Add Variable... setting to your Android SDK home.
+
 - Export the project to a jar file. Don't forget the manifest file
-- Copy the jar exported to your user's *android/lint/* directory. Note: On Unix
-based systems this is most likely *~/.android/lint/*
+
+- Copy the jar exported to your user's *android/lint/* directory. Note: On Unix based
+systems this is most likely *~/.android/lint/*
+
 - Test if lint "see" your check
 
 ```
