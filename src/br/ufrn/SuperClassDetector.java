@@ -26,10 +26,9 @@ public class SuperClassDetector extends Detector implements JavaScanner {
 	private static final String CLASS_V4_FRAGMENTACTIVITY = "android.support.v4.app.FragmentActivity";
 
 	public static final Issue FRAGMENT_ACTIVITY = Issue.create(
-            "ActivityIsFragmentActivity", "The activities should extends "  
-            		+ CLASS_V4_FRAGMENTACTIVITY + " class",
-            "Checks if the main activity defined in manifest file extends the " 
-            		+ CLASS_V4_FRAGMENTACTIVITY + " class",
+            "ActivityIsFragmentActivity",
+            "The activities should extends " + CLASS_V4_FRAGMENTACTIVITY + " class",
+            "Checks if the activities extends the " + CLASS_V4_FRAGMENTACTIVITY + " class",
             Category.CORRECTNESS, 6, Severity.WARNING,
             new Implementation(
             		SuperClassDetector.class,
@@ -37,10 +36,9 @@ public class SuperClassDetector extends Detector implements JavaScanner {
             );
 
 	public static final Issue ACTIONBAR_ACTIVITY = Issue.create(
-            "AppShouldUsesActionBar", "The main activity should extends the "
-            		+ CLASS_V7_ACTIONBARACTIVITY + " class",
-            "Checks if the main activity defined in manifest file extends the "
-            		+ CLASS_V7_ACTIONBARACTIVITY + " class",
+            "AppShouldUsesActionBar",
+            "The activities should extends the " + CLASS_V7_ACTIONBARACTIVITY + " class",
+            "Checks if the activities extends the " + CLASS_V7_ACTIONBARACTIVITY + " class",
             Category.CORRECTNESS, 8, Severity.WARNING,
             new Implementation(
             		SuperClassDetector.class,
@@ -52,11 +50,11 @@ public class SuperClassDetector extends Detector implements JavaScanner {
 		return Collections.singletonList(SdkConstants.CLASS_ACTIVITY);
 	}
 	
-	
-	
 	@Override
-	public void checkClass(JavaContext context, ClassDeclaration declaration, Node node, ResolvedClass resolvedClass) {
-		// TODO Auto-generated method stub
+	public void checkClass(JavaContext context, ClassDeclaration declaration,
+			Node node, ResolvedClass resolvedClass) {
+		
+		// checking if the class extends CLASS_V4_FRAGMENTACTIVITY
 		boolean isFragmentActivity = resolvedClass.isSubclassOf(CLASS_V4_FRAGMENTACTIVITY, false);
 		if (!isFragmentActivity){
 			ResolvedNode rNode = context.resolve(node);
@@ -65,6 +63,7 @@ public class SuperClassDetector extends Detector implements JavaScanner {
 			context.report(FRAGMENT_ACTIVITY, node, location, message);
 		}
 		
+		// checking if the class extends CLASS_V7_ACTIONBARACTIVITY
 		boolean isActionBarActivity = resolvedClass.isSubclassOf(CLASS_V7_ACTIONBARACTIVITY, false);
 		if (!isActionBarActivity){
 			ResolvedNode rNode = context.resolve(node);
@@ -76,4 +75,3 @@ public class SuperClassDetector extends Detector implements JavaScanner {
 		super.checkClass(context, declaration, node, resolvedClass);
 	}
 }
-
