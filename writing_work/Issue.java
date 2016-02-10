@@ -1,13 +1,12 @@
-public static final Issue CHECKFRAGMENTACTIVITY = 
-        Issue.create(
-              "MainActivityIsFragmentActivity", // id
-              "The main activity should extends FragmentActivity class", // descricao curta
-              "Checks if the main activity defined in manifest file extends the FragmentActivity class", // descricao longa
-              Category.CORRECTNESS, // categoria
-              6, // prioridade
-              Severity.WARNING, // severidade
-              new Implementation(
-                    PatternsDetector.class, // detector que procura por essa issue
-               		EnumSet.of(Scope.ALL_JAVA_FILES, Scope.MANIFEST)) // escopo
-              );
-
+public static final Issue FRAGMENT_ACTIVITY = Issue.create(
+            "ActivityIsFragmentActivity", // id
+            "The activities should extends "
+                     + CLASS_V4_FRAGMENTACTIVITY + " class", // descricao curta
+            "Checks if the activities extends the " 
+                     + CLASS_V4_FRAGMENTACTIVITY + " class", // descricao longa
+            Category.CORRECTNESS, 6, // categoria, prioridade 
+            Severity.WARNING, // severidade
+            new Implementation(
+                     SuperClassDetector.class, // detector que procura por essa issue
+                     EnumSet.of(Scope.ALL_JAVA_FILES)) // escopo
+            );

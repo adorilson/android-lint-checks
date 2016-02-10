@@ -508,9 +508,8 @@
         um detector focando no issue que verifica se as activities herdam de FragmentActivity.
         Serão apresentados os seguintes elementos:
         \begin{itemize}
-            \item PatternDetector: classe detector
-            \item CHECKFRAGMENTACTIVITY: issue que descreve o problema a ser procurado
-            \item PerformanceVisitor: visitor que faz a analise da AST
+            \item SuperClassDetector: classe detector
+            \item FRAGMENT\_ACTIVITY: issue que descreve o problema a ser procurado
             \item context.report: chamada ao método report do objeto de context
             \item PatternsIssueRegistry: registra novos issue no Lint
         \end{itemize}
@@ -519,20 +518,14 @@
 
    \frame
    {
-    \frametitle{Issue CHECKFRAGMENTACTIVITY}
+    \frametitle{Issue FRAGMENT\_ACTIVITY}
     \lstinputlisting{Issue.java}
    }
    
    \frame[allowframebreaks]
    {
-    \frametitle{Detector PatternsDetector}
-    \lstinputlisting{PatternsDetector.java}
-   }
-   
-   \frame[allowframebreaks]
-   {
-    \frametitle{Visitor PerformanceVisitor e reporting}
-    \lstinputlisting{PerformanceVisitor.java}
+    \frametitle{Detector SuperClassDetector}
+    \lstinputlisting{SuperClassDetector.java}
    }
    
    \frame
@@ -563,8 +556,8 @@
     \frametitle{Diagrama de classes do detector implementado}
     \begin{figure}
             \centering
-            \includegraphics[width=6.5cm]{img/PatternsDetector}
-            \caption{Diagrama de classes do detector PatternsDetector}
+            \includegraphics[width=6.5cm]{img/SuperClassDetector}
+            \caption{Diagrama de classes do detector SuperClassDetector}
         \end{figure}
    }
    
