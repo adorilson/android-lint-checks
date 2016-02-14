@@ -560,6 +560,48 @@
     \lstinputlisting{../src/META-INF/MANIFEST.MF}
    }
    
+   \frame
+   {
+        \frametitle{Exemplificando 2}
+        Além de herdar de FragmentActivity, é necessário de fato usar fragmentos.
+        Verificamos isso se no método onCreate() da activity, de forma direta ou
+        indireta, é feita uma chamada para o método beginTransaction() da 
+        classe FragmentManager. 
+        
+        Serão apresentados os seguintes elementos:
+        \begin{itemize}
+            \item UsesFragmentTransaction: classe detector
+            \item UsesFragmentTransaction.ISSUE: issue que descreve o problema a ser procurado
+            \begin{itemize}
+                \item ISSUE costuma ser o nome quando o detector busca por 
+                apenas um issue
+            \end{itemize}
+        \end{itemize}
+        
+   }
+   
+   {
+    \frametitle{Diagrama de classes do detector implementado}
+    \begin{figure}
+            \centering
+            \includegraphics[width=10cm]{img/UsesFragmentTransaction}
+            \caption{Diagrama de classes parcial}
+        \end{figure}
+   }
+
+   \frame[allowframebreaks]
+   {
+    \frametitle{Issue UsesFragmentTransaction.ISSUE}
+    \lstinputlisting{UsesFragmentTransaction_Issue.java}
+   }
+
+   
+   \frame[allowframebreaks]
+   {
+    \frametitle{Detector UsesFragmentTransaction}
+    \lstinputlisting{UsesFragmentTransaction.java}
+   }
+
     
 \section{Resultados parciais}
     \subsection{Resultados parciais}
