@@ -602,6 +602,33 @@
     \lstinputlisting{UsesFragmentTransaction.java}
    }
 
+   \frame
+   {
+        \frametitle{Exemplificando 3}
+        Além da activity herdar de ActionBarActivity, também é necessário usar
+        um estilo específico: @style/Theme.AppCompat.Light. O check apresentado
+        a seguir faz esse verificação.
+        
+        Serão apresentados os seguintes elementos:
+        \begin{itemize}
+            \item ThemeDetector: classe detector
+            \begin{itemize}
+                \item Este detector foi feito através da extensão de um outro
+                preexistente e não apenas a partir de classes da API, como os demais.
+            \end{itemize}
+            \item ThemeDetector.USESTHEMEAPPCOMPATLIGHT: issue que descreve o problema a ser procurado
+        \end{itemize}
+   }
+
+   {
+        \frametitle{Diagrama de classes do detector ThemeDetector}
+        \begin{figure}
+            \centering
+            \includegraphics[width=8cm]{img/ThemeDetector}
+            \caption{Diagrama de classes parcial}
+        \end{figure}
+   }
+
     
 \section{Resultados parciais}
     \subsection{Resultados parciais}
@@ -612,13 +639,16 @@
             \item 4 novos checks foram implementados
             \begin{itemize}
                 \item 1 deles (checar uso do tema Theme.AppCompat.Light) precisa
-                ser refeito para suportar heranças indiretas
+                ser aprimorado para suportar heranças indiretas
             \end{itemize}
             \item{Testados em 3 aplicações: MMUnB, AntennaPod e Google IO Schedule}
                 \begin{itemize}
                     \item Apenas no Google IO ocorreu um falso negativo na verificação
                     de heranças devido, provavelmente, estrutura do projeto ou class-loader.
                 \end{itemize}
+            \item Apesar de uma quantidade relativamenta pequenas de checks implementados,
+            tivemos uma boa variação de elementos utilizados da API, devido aos distintos
+            objetivos desses checks. São analisados: arquivos XML, código-fonte Java e bytecode.
         \end{itemize}
     }
 
